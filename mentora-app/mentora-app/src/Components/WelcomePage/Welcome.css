@@ -1,0 +1,231 @@
+.WelcomePageContainer{
+ /* width: auto; */
+ /* height: 100000px; */
+ background-color: #206F7E;
+ padding: 35px 30px;
+}
+.WelcomePageContent{
+ background-color: white;
+ height: 100%;
+ border-radius: 30px ;
+ padding: 30px 20px;
+}
+.WelcomePageContainer .WelcomePageContent .firstSection{
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  /* background-color: aqua; */
+  width: 100%;
+  height: auto;
+  margin-bottom: 10%;
+}
+.WelcomePageContainer .WelcomePageContent .firstSection .leftSection{
+    width: 40%;
+    height: 100%;
+    animation: move 0.5s linear 0s;
+}
+@keyframes move{
+ 0%{
+    transform: translateX(-70px);
+    opacity: 0;
+  }
+  100%{
+    transform: translateX(0px);
+    opacity: 1;
+  }
+}
+.WelcomePageContainer .WelcomePageContent .firstSection .leftSection h1{
+    font-family: 'Inter', sans-serif;
+    color: #206F7E;
+    /* background-color: red; */
+    font-weight: 900;
+    font-size: 45px;
+    text-align: center;
+}
+.WelcomePageContainer .WelcomePageContent .firstSection .leftSection p{
+    text-align: center;
+    color: rgba(32, 111, 126, 0.7);
+    font-family: 'Inter', sans-serif;
+    font-size: 17px;
+    /* background-color: aqua; */
+}
+.WelcomePageContainer .WelcomePageContent .firstSection .leftSection button{
+     padding:15px 48px;
+     background-color: #206F7E;
+     border-radius: 15px;
+     outline: none;
+     border: none;
+     color: white;
+     font-size: 18px;
+     font-family: 'Trocchi', serif;
+}
+.WelcomePageContainer .WelcomePageContent .firstSection .leftSection button:hover{
+    cursor: pointer;
+}
+.WelcomePageContainer .WelcomePageContent .firstSection .rightSection{
+    /* background-color: blue; */
+    width: 50%;
+    height: 100%;
+    position: relative;
+    align-items: center;
+    /* padding-top: 20px; */
+}
+.WelcomePageContainer .WelcomePageContent .firstSection .rightSection .verticalImages{
+    display: flex;
+    flex-direction: column;
+    gap: 80px;
+    margin-top: 25px;
+    justify-content:center;
+    align-items: center;
+}
+.WelcomePageContainer .WelcomePageContent .firstSection .rightSection .verticalImages img{
+ width: 22%;
+}
+.WelcomePageContainer .WelcomePageContent .firstSection .rightSection .horizentalImages{
+    position: absolute;
+    top: 36%;
+    left:26%;
+    display: flex;
+    flex-direction: row;
+    gap: 40%;
+    justify-content:center;
+    align-items: center;
+}
+.WelcomePageContainer .WelcomePageContent .firstSection .rightSection .horizentalImages img{
+    width:40%;
+}
+.WelcomePageContainer .WelcomePageContent .secondSection{
+ display: flex;
+ /* align-items: center; */
+ justify-content: space-evenly;
+ margin-bottom: 5%;
+ /* flex: 3; */
+}
+.WelcomePageContainer .WelcomePageContent .secondSection .leftSection{
+ display: flex;
+ flex: 2;
+ justify-content: center;
+ /* background-color: red; */
+ align-items: center;
+}
+.WelcomePageContainer .WelcomePageContent .secondSection .leftSection img{
+    width: 75%;
+    height: 100%;
+}
+.WelcomePageContainer .WelcomePageContent .secondSection .rightSection{
+    flex: 5;
+    margin: 0px 20px;
+    display: flex;
+    flex-direction: column;
+    /* align-items: center; */
+    justify-content: center;
+    /* background-color: aqua; */
+}
+.WelcomePageContainer .WelcomePageContent .secondSection .rightSection h2{
+    font-family: 'Inter', sans-serif;
+    color: #206F7E;
+}
+.WelcomePageContainer .WelcomePageContent .secondSection .rightSection p{
+    font-family: 'Inter', sans-serif;
+    color: #206F7E;
+    font-size: 15px;
+}
+.WelcomePageContainer .WelcomePageContent .secondSection .rightSection .card{
+  display: flex;
+  background-color: #206F7E;
+  width: 80%;
+  align-items: center;
+  margin: 15px 0px;
+  border-radius: 20px;
+  padding: 10px 15px;
+}
+.WelcomePageContainer .WelcomePageContent .secondSection .rightSection .card .imageCard{
+    width: 20%;
+    height: 50%;
+}
+.WelcomePageContainer .WelcomePageContent .secondSection .rightSection .card .imageCard img{
+    width: 80%;
+    height: 100%;
+}
+.WelcomePageContainer .WelcomePageContent .secondSection .rightSection .card .contentCard{
+    color: white;
+    /* background-color: blue; */
+    align-items: center;
+}
+.WelcomePageContainer .WelcomePageContent .secondSection .rightSection .card .contentCard h4{
+    color: white;
+}
+.WelcomePageContainer .WelcomePageContent .secondSection .rightSection .card .contentCard p{
+    color: white;
+}
+.WelcomePageContainer .WelcomePageContent .thirdSection{
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+.WelcomePageContainer .WelcomePageContent .thirdSection .leftSection{
+    width: 35%;
+}
+.WelcomePageContainer .WelcomePageContent .thirdSection .leftSection img{
+    width: 100%;
+    height: 100%;
+}
+.WelcomePageContainer .WelcomePageContent .thirdSection .rightSection{
+     width: 60%;
+     /* background-color: aqua; */
+}
+.WelcomePageContainer .WelcomePageContent .thirdSection .rightSection h3{
+  color: #206F7E;
+  font-family: 'Inter', sans-serif;
+  font-weight: 900;
+   font-size: 32px;
+}
+.WelcomePageContainer .WelcomePageContent .thirdSection .rightSection p{
+    color: #206F7E;
+  font-family: 'Inter', sans-serif;
+  /* width: 80%; */
+  font-size: 20px;
+}
+.WelcomePageContainer .WelcomePageContent .fourthSection{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.WelcomePageContainer .WelcomePageContent .fourthSection h2{
+    color: #206F7E;
+  font-family: 'Inter', sans-serif;
+  font-weight: 900;
+   font-size: 32px;
+}
+.WelcomePageContainer .WelcomePageContent .fourthSection .nestedSection{
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+}
+.WelcomePageContainer .WelcomePageContent .fourthSection .nestedSection .card{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 5px;
+    width: 24%;
+    height:320px ;
+    /* box-shadow: 15px 15px 6.8px; */
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.25), 0 6px 20px 0 rgba(0, 0, 0, 0.25);
+    overflow: hidden;
+}
+.WelcomePageContainer .WelcomePageContent .fourthSection .nestedSection .card img{
+ width: 70%;
+ height: 50%;
+}
+.WelcomePageContainer .WelcomePageContent .fourthSection .nestedSection .card h3{
+    /* background-color: antiquewhite; */
+    font-family: 'Inter', sans-serif;
+}
+.WelcomePageContainer .WelcomePageContent .fourthSection .nestedSection .card p{
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+}
+.WelcomePageContainer .WelcomePageContent .fourthSection .nestedSection .card:hover {
+  transform:scale(1.1);
+}

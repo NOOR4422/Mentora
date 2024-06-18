@@ -1,0 +1,26 @@
+body{
+    background-color: #206F7E;
+}
+.Community-container-all {
+    display: flex;
+    flex-direction: column;
+    background-color: #206f7e;
+    width: 100%;
+    align-items: center;
+    height: 100vh;
+    /* position: relative; */
+}
+
+.content-container-community {
+    display: flex;
+    flex-grow: 1;
+    width: 100%;
+}
+.main-content-community {
+    display: flex;
+    width: 80%;
+    align-items: flex-start;
+    margin-left: 20%;
+    background-color: #206F7E;
+    margin-top: 5%;
+}

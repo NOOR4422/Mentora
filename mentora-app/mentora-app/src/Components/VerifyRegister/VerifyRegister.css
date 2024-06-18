@@ -1,0 +1,94 @@
+.container {
+    height: 100vh;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.80) 0%, rgba(32, 111, 126, 0.70) 96.2%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.verificationContainer {
+    display: flex;
+    border-radius: 15px;
+    overflow: hidden;
+    width: 75%;
+    height: 75%;
+    max-width: 1200px;
+    background: rgba(32, 111, 126, 0.80);
+    box-shadow: 0 0 20px rgba(42, 42, 42, 0.8);
+}
+
+.leftSection {
+    flex: 1;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    background-color: #ffffff;
+    justify-content: center;
+}
+
+.verificationPageText {
+    text-align: left;
+    color: #206F7E;
+}
+
+.verificationInfoText {
+    text-align: left;
+    color: #206F7E;
+    margin-bottom: 10px;
+}
+
+.verificationCodeInputContainer {
+    display: flex;
+    gap: 5px;
+}
+
+.verificationCodeInput {
+    width: 50px;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #206F7E;
+    box-sizing: border-box;
+    color: #206F7E;
+    text-align: center;
+}
+
+.resendCodeButton {
+  background-color: #206F7E;
+  color: #ffffff;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  margin-top: 10px;
+
+  }
+ 
+  .loader {
+      border: 4px solid #f3f3f3;
+      border-top: 4px solid #3498db;
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      animation: spin 1s linear infinite;
+      margin-right: 5px;
+  }
+
+  @keyframes spin {
+      0% {
+          transform: rotate(0deg);
+      }
+
+      100% {
+          transform: rotate(360deg);
+      }
+  }
+.rightSection {
+    flex: 2;
+    overflow: hidden;
+}
+
+.learningImage {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+

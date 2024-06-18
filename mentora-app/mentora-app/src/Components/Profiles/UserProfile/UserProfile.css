@@ -1,0 +1,179 @@
+.profile-container{
+    width: 100%;
+    background: linear-gradient(to bottom, rgba(32, 111, 126, 0.5), rgba(32, 111, 126, 1));
+    display: flex;
+    /* justify-content: center; */
+}
+.profile-content{
+  /* background-color:white; */
+  width: 98%;
+  border-radius: 20px;
+  margin-top:4% ;
+  display: flex;
+  justify-content: center;
+ 
+}
+.profile-content .userData{
+  width: 100%;
+  background-color: white;
+  display: flex;
+  margin: 1% 0;
+  margin-top: 1%;
+  padding: 1%;
+  border-radius: 20px;
+  /* justify-content: space-between; */
+  align-items: flex-start;
+  margin-left: 20.5%;
+  gap: 1%;
+}
+.profile-content .userData .leftSide{
+  background-color: white;
+  width: 40%;
+  box-shadow: 1px 1px 8px #39818f, -1px -1px 8px #39818f;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: 'Trocchi', serif;
+  color: #206F7E;
+  padding: 10px;
+}
+.profile-content .userData .leftSide .userImage{
+    width: 35%;
+}
+.profile-content .userData .leftSide .userName,.profile-content .userData .leftSide .bio{
+    text-transform: capitalize;
+    margin: 5px;
+}
+.profile-content .userData .leftSide .followers-following{
+    display: flex;
+    width: 90%;
+    justify-content: space-around;
+    align-items: center;
+    margin: 14px 0;
+}
+.profile-content .userData .leftSide .followers-following div{
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   cursor: pointer;
+}
+.profile-content .userData .leftSide .followers-following div p{
+    margin: 0;
+}
+.profile-content .userData .leftSide .buttons{
+    display: flex;
+    align-items: center;
+    width: 95%;
+    justify-content: space-around;
+    margin: 3px 0;
+}
+.profile-content .userData .leftSide .editProfile{
+    display: flex;
+    justify-content: center;
+    width: 35%;
+}
+.profile-content .userData .leftSide .editProfile button{
+    background-color: #206F7E;
+    border: none;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+.profile-content .userData .leftSide .editProfile button p,.profile-content .userData .leftSide .Apply-as-mentor button p{
+    color: white;
+    font-family: 'Trocchi', serif;
+    font-size: 14px;
+}
+.profile-content .userData .leftSide .Apply-as-mentor{
+    display: flex;
+    justify-content: center;
+    width: 45%;
+    /* background-color: aqua; */
+}
+.profile-content .userData .leftSide .Apply-as-mentor button{
+    background-color: #206F7E;
+    border: none;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+.line1{
+    width: 100%;
+    height: 2px;
+    background-color: #206F7E;
+    opacity: 0.6;
+    margin: 4% 0 10% 0;
+}
+.line{
+    width: 100%;
+    height: 2px;
+    background-color: #206F7E;
+    opacity: 0.6;
+    margin: 10px 0;
+}
+.profile-content .userData .info{
+    background-color: white;
+    width: 60%;
+    box-shadow: 1px 1px 8px #39818f, -1px -1px 8px #39818f;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    font-family: 'Trocchi', serif;
+    color: #206F7E;
+    padding: 20px;
+}
+.profile-content .userData .info h2{
+    text-transform: capitalize;
+    font-weight: 600;
+    margin: 0;
+}
+.profile-content .userData .info .img{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+.profile-content .userData .info .Data{
+    /* background-color: aqua; */
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+}
+.profile-content .userData .info .Data .item{
+     display: flex;
+     align-items: center;
+     margin: 0;
+     justify-content: space-between;
+     /* background-color: aqua; */
+}
+.profile-content .userData .info .Data .item .nameIcon{
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+.profile-content .userData .info .Languages,.profile-content .userData .info .Interests{
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    width: 100%;
+    margin: 0;
+}
+.profile-content .userData .info .listofLanguages,.profile-content .userData .info .listofInterests{
+    display: flex;
+    align-items: center;
+    width: 50%;
+    justify-content: space-between;
+    margin: 0;
+    flex-wrap: wrap;
+}

@@ -1,0 +1,350 @@
+.post{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 0px 11px 5.8px rgba(0, 0, 0, 0.25);
+    border-radius: 20px;
+    padding: 20px;
+    position: relative;
+}
+.post-header{
+    display: flex;
+    align-items: center;
+    width: 100%;
+    justify-content: space-between;
+    position: relative;
+}
+.post-header .menu{
+    cursor: pointer;
+}
+.options{
+    background-color: #206F7E;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 15px;
+    padding: 10px 20px;
+    position: absolute;
+    top: 75%;
+    right: -2%;
+    color: white;
+    width: 12%;
+    gap: 5px;
+}
+.options:before {
+    content: '';
+    position: absolute;
+    top: -8%;
+    right: 5%;
+    width: 0;
+    height: 0;
+    border-left: 15px solid transparent;
+    border-right: 15px solid transparent;
+    border-bottom: 15px solid #206F7E; 
+    z-index: 200;
+  }
+.options .edit ,.options .delete{
+    display: flex;
+    align-items: center;
+    width: 100%;
+    justify-content: space-between;
+    cursor: pointer;
+    font-family: 'Trocchi', serif; 
+}
+.post-header .user-info{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+}
+.post-header .user-info img{
+   width: 35px;
+   height: 35px;
+   border-radius: 50%;
+}
+.user-details{
+    display: flex;
+    flex-direction: column;
+    /* gap: 3px; */
+}
+.user-details h3,.user-details p{
+    margin: 0;
+    color: #206F7E;
+    font-family: 'Trocchi', serif; 
+}
+.user-details h3{
+    font-size: 15px;
+    text-transform: capitalize;
+    margin: 0;
+}
+.user-details p{
+    font-size: 13px;
+}
+.post .description{
+  font-size: 15px;
+  color: #206F7E;
+  width: 100%;
+  /* background-color: aqua; */
+}
+.post .Shared{
+    width: 100%;
+    height: 280px;
+    background-size:cover;
+}
+.noOfReactsComments{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  color: #206F7E;
+  border-bottom: 1px solid #206F7E;
+}
+.noOfReacts{
+    display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.post-footer{
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 10px;
+}
+.post-footer .item{
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    cursor: pointer;
+    padding: 0px 15px;
+}
+.post-footer .item:hover {
+    background-color:#d7d7d7;
+}
+.post-footer .item p{
+  color: #206F7E;
+  font-family: 'Trocchi', serif; 
+  font-size: 15px;
+  font-weight: 600;
+}
+
+
+.container-comments{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    background-color: #206F7E;
+    padding: 25px;
+    gap: 15px;
+    border-radius: 10px;
+    position: absolute;
+    width: 48%; 
+    height: 790px;
+    z-index: 99999999999;
+    /* left: auto; */
+    max-height: 450px;
+    overflow-y: auto;
+    top: 10%;
+    position: fixed;
+   
+}
+/*  */
+.container-comments .header-comment{
+   width: 100%;
+   display: flex;
+   justify-content: flex-end;
+   align-items: center;
+}
+.container-comments .header-comment img{
+    cursor: pointer;
+}
+.post-comment{
+    display: flex;
+    align-items: center;
+    width: 100%;
+    justify-content: space-between;
+    margin: 15px 0;
+    z-index: 1000000000000000000;
+    background-color:#206F7E;
+    /* gap: 5px; */
+}
+.post-comment .avatar{
+    width: 35px;
+    height: 35px;
+    border-radius:50% ;
+}
+.input-comment{
+    width: 90%;
+    display: flex;
+    align-items: center;
+    border-radius: 10px;
+    border: white solid 1px;
+    background-color: transparent;
+    padding: 3px 10px;
+    justify-content: space-between;
+}
+.input-comment input{
+    width: 80%;
+    padding: 10px 5px;
+    outline: none;
+    border: none;
+    color: white;
+    font-size: 14px;
+    background-color: transparent;
+}
+.input-comment img{
+    cursor: pointer;
+}
+.input-comment input::placeholder{
+    color: white;
+    font-size: 12px;
+    font-family: 'Trocchi', serif; 
+}
+.fileinput{
+    display: none;
+}
+.button{
+    width: 15%;
+    display: flex;
+    align-items: center;
+    /* background-color: aqua; */
+    justify-content: center;
+    padding: 5px;
+    cursor: pointer;
+}
+.addpcomment{
+  display: block;
+  background-color: transparent;
+  color: white;
+  font-family: 'Trocchi', serif; 
+  border: none;
+  outline: none;
+  /* padding: 10px 20px; */
+  border-radius: 8px;
+  position: relative;
+  right: 0;
+  text-transform: capitalize;
+}
+button.disabled{
+    display: block;
+  color: white;
+  cursor: pointer;
+  font-family: 'Trocchi', serif; 
+  border: none;
+  outline: none;
+  /* padding: 10px 20px; */
+  border-radius: 8px;
+  position: relative;
+  right: 0;
+  text-transform: capitalize;
+  background-color: transparent;
+    cursor: default;
+  }
+.comment{
+    display: flex;
+    align-items: flex-start;
+    width: 100%;
+    /* z-index: 10000; */
+    /* background-color: aqua; */
+    gap: 5px;
+}
+.comment .avatar{
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin-top: 5px;
+}
+.comment-details{
+    width: 90%;
+    padding: 5px 10px;
+    justify-content: flex-start;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    position: relative;
+    /* box-shadow: inset 4px 4px 5.8px rgba(0, 0, 0, 0.25),inset -4px -4px 5.8px rgba(0, 0, 0, 0.25); */
+    background-color: #F1F2F7;
+}
+
+.comment-details .comment-user{
+    font-size: 16px;
+    margin: 0;
+    color: #206F7E;
+    font-weight: 600;
+    /* font-family: 'Trocchi', serif;  */
+}
+.comment-details .all-above{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.comment-details .all-above img{
+    cursor: pointer;
+}
+.comment-details .all-above .above{
+   display: flex;
+   align-items: center;
+   gap: 15px;
+   margin-bottom: 4px;
+}
+.comment-details span{
+    font-size: 12px;
+    margin: 0;
+    /* margin-bottom: 60px; */
+    color: #206F7E;
+}
+.comment-description{
+    color: black;
+    margin: 0;
+    font-family: 'Trocchi', serif; 
+    font-size: 16px;
+
+}
+.noComments{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+.noComments img{
+    width: 50%;
+    
+}
+
+.Actions{
+    display: flex;
+    position: absolute;
+    align-items: flex-start;
+    /* background-color: red; */
+    gap: 30px;
+    bottom: -55%;
+   
+}
+.Actions img{
+    width: 25%;
+    height: 15%;
+    cursor: pointer;
+}
+
+.Actions .likeComment,.Actions .replyComment{
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    color: white;
+    font-family: 'Trocchi', serif; 
+    font-size: 13px;
+}
+::-webkit-scrollbar{
+    width: 0.7em;
+}
+::-webkit-scrollbar-track{
+    background-color: white;
+    border-radius: 100vw;
+    margin-block: 0.3em;
+    margin-inline: 1em;
+   
+}
+::-webkit-scrollbar-thumb{
+    background: linear-gradient(to bottom,rgba(32, 111, 126, 0.7), rgba(255, 255, 255, 0.7), rgba(32, 111, 126, 0.7));
+    border-radius: 100vw;
+    cursor: pointer;
+}

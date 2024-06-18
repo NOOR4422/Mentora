@@ -1,0 +1,64 @@
+.card{
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+    border-radius: 20px ;
+    padding: 10px;
+    border: solid white 1px;
+}
+.RightSection-header{
+    font-family: 'Trocchi', serif;
+    font-size: 18px;
+    color: white;
+    margin-bottom: 20px;
+    letter-spacing: .05cm;
+    font-weight: 500;
+}
+.card-info{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.card-image{
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+}
+.card-content{
+    display: flex;
+   flex-direction: column;
+   justify-content: space-around;
+   /* background-color: aqua; */
+   gap: 5px;
+   /* align-items: center; */
+   
+}
+.card-content h3{
+    font-family: 'Trocchi', serif;
+    font-size: 13px;
+    color: white;
+    text-transform: capitalize;
+}
+.card-content p{
+    font-family: 'Trocchi', serif;
+    font-size: 10px;
+    color: white;
+}
+.card-content h3,
+.card-content p {
+    margin: 0; 
+}
+.view-profile-button{
+    color: white;
+    border-radius: 10px;
+    border: 1px solid white;
+    background-color: transparent;
+    width: 50%;
+    margin: auto;
+    margin-top: 10px;
+    padding: 6px 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    cursor: pointer;
+}

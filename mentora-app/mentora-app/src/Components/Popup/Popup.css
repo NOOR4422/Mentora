@@ -1,0 +1,174 @@
+.popup-container{
+    width: 50%;
+    background-color: white;
+    position: absolute;
+    position: fixed;
+    top: 0;
+    left: auto;
+    border-radius: 15px;
+    padding: 10px 17px;
+    z-index: 99999999999999;
+    animation: fadein .3s ;
+    transition: all 1s;
+  }
+  @keyframes fadein{
+      from{
+         opacity: 0;
+      }
+      to{
+          opacity: 1;
+      }
+  }
+  .popup-header{
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: #206f7e;
+      padding: 10px 0;
+      border-bottom:#206f7e 1px solid ;
+      margin-bottom: 10px;
+  }
+  .popup-header img{
+    cursor: pointer;
+  }
+  .popup-header span{
+      font-family: 'Trocchi', serif;
+      font-size: 15px;
+  }
+  .popup-user-info{
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      margin-bottom: 10px;
+  }
+  .popup-user-info img{
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+  }
+  .popup-user-info span{
+      font-family: 'Trocchi', serif;
+      font-size: 15px;
+      color: #206f7e;
+      text-transform: capitalize;
+  }
+  .popup-container .textarea{
+    outline: none;
+    width: 95%;
+    resize: none;
+    border: #206f7e 1px solid;
+    border-radius: 20px;
+    box-shadow: 1px 1px 5px #206F7E, -1px -1px 5px #206F7E;
+    height: 100px;
+    padding: 10px;
+    margin-bottom: 0px;
+  }
+  .popup-container .inputfile{
+    display: none;
+  }
+  .popup-container .labelphoto{
+     display: flex;
+     width: 95%;
+     border: 1px solid #206F7E;
+     padding: 10px;
+     border-radius: 10px;
+     color: #206F7E;
+     font-family: 'Trocchi', serif;
+     font-size: 13px;
+     align-items: center;
+     justify-content: space-between;
+     cursor: pointer;
+     margin-bottom: 20px;
+  }
+  /* .popup-container .labelphoto:hover{
+      border: 2px solid #206F7E;
+  } */
+  
+  .popup-container .urlinput{
+    display: flex;
+    align-items: center;
+    width: 95%;
+     border: 1px solid #206F7E;
+     padding: 0 10px;
+     border-radius: 10px;
+     justify-content: space-between;
+     margin-bottom: 20px;
+  }
+  .popup-container .urlinput .inputurl{
+      width: 100%;
+      padding: 12px 0;
+      outline: none;
+      border: none;
+      font-family: 'Trocchi', serif;
+      font-size: 13px;
+      color: #206F7E;
+  }
+  .popup-footer{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 97%;
+    margin-bottom: 10px;
+    padding: 0 10px;
+  }
+  .popup-footer .icons{
+      width: 20%;
+      display: flex;
+      /* background-color: red; */
+      justify-content: space-around;
+      align-items: center;
+  }
+  .popup-footer .icons img:hover{
+    cursor: pointer;
+  }
+  .popup-footer button{
+    border: none;
+    outline: none;
+    color: white;
+    background-color: #206F7E;
+    padding: 10px 30px;
+    border-radius: 10px;
+    cursor: pointer;
+  }
+  .popup-footer button.disabled{
+    background-color: #888e8f44;
+    cursor: default;
+  }
+  .photoshared{
+      width: 40%;
+      height: 180px;
+      display: block;
+      margin: auto;
+  }
+  .twoOptions{
+    display: flex;
+    align-items: center;
+    width: 97%;
+    padding: 0 10px;
+    /* background-color: aqua; */
+    /* justify-content: space-around; */
+    gap: 30px;
+  }
+  .twoOptions label{
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    cursor: pointer;
+    font-family: 'Trocchi', serif;
+    font-size: 15px;
+    color: #206F7E;
+  }
+  .twoOptions label input{
+    box-sizing: border-box;
+    appearance: none;
+    background: white;
+    outline: 1px solid #206F7E;
+     border: 2px solid white;
+     width: 13px;
+    height: 13px;
+    border-radius: 50%;
+  }
+  .twoOptions label input:checked {
+    background: #206F7E;
+  }
+  

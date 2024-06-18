@@ -1,0 +1,336 @@
+/* RequestMentorPage.css */
+
+.all-RequestMentor-container {
+    /* display: flex;
+    border-radius: 10px;
+    background-color: #206f7e;
+    width: 80%;
+    margin-bottom: 10px;
+    margin-right: 10px;
+    box-shadow: 3px 3px 10px 10px rgba(0.1, 0.1, 0.1, .1);
+    padding-right: 10px;
+    position: absolute;
+    bottom: 0; */
+
+    border-radius: 10px;
+    background-color: #ffffff;
+
+    justify-content: left;
+    color: #206F7E;
+    box-shadow: 3px 3px 10px 10px rgba(0.1, 0.1, 0.1, .1);
+    width: 70%;
+    padding-right: 10px;
+    margin-bottom: 10px;
+    margin-right: 10px;
+    display: flex;
+   align-items: start;
+    flex-direction: column;
+   
+    margin-top: 90px;
+    height: auto;
+    
+
+
+
+
+
+        margin-right: 5%;
+}
+
+.RequestMentor-Container {
+    width: 98%;
+    flex-direction: row;
+    background-color: #ffffff;
+    display: flex;
+    min-height: 80vh;
+    margin: 20px;
+    border-radius: 10px;
+}
+.RequestMentor-page-container{
+    display: flex;
+}
+.track-selector,
+.language-selector,
+.gender-selector {
+    max-width: 400px;
+    margin: 0 ;
+}
+
+form {
+    margin-top: 0px;
+}
+
+.track-input,
+.language-input,
+.gender-input {
+    /* position: relative; */
+}
+
+.trackLabel,
+.languageLabel,
+.genderLabel {
+    /* font-size: 20px;
+    font-weight: 600; */
+}
+
+.trackSelection-section,
+.languageSelection-section,
+.genderSelection-section {
+    padding: 0px;
+}
+
+.rounded-field {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    padding: 5px 10px;
+    width: 600px;
+    min-height: 20px;
+}
+
+.selected-track {
+    background-color: #eeeeee;
+    color: #333;
+    padding: 5px 10px;
+    border-radius: 20px;
+    margin-right: 5px;
+    margin-bottom: 10px;
+}
+
+.selected-track button {
+    background: none;
+    border: none;
+    color: red;
+    cursor: pointer;
+}
+
+.dropdown {
+    /* position: relative; */
+    width: calc(100% - 2px);
+width: 630px;
+    border: 1px solid #ccc;
+    /* border-top: none; */
+    border-radius: 20px;
+    background-color: #fff;
+    /* margin-top: 5px; */
+}
+
+.dropdown-icon {
+    position: absolute;
+    top: 50%;
+    right: 8px;
+    transform: translateY(-50%);
+}
+
+.dropdown ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.dropdown ul li {
+    padding: 8px 10px;
+    cursor: pointer;
+}
+
+.dropdown ul li:hover {
+    background-color: #f0f0f0;
+}
+
+svg {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+}
+
+.rounded-field {
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    padding: 8px 16px;
+    cursor: pointer;
+    position: relative;
+}
+
+.selected-track {
+    display: inline-block;
+    margin-right: 8px;
+}
+
+.cancel-icon {
+    margin-left: 8px;
+    color: red;
+}
+
+.mentorship-type-section {
+    margin-top: 20px;
+}
+
+.mentorship-type-options label {
+    display: flex;
+    margin-bottom: 10px;
+    margin-right: 20px;
+}
+.mentorship-type-options{
+    display: flex;
+    justify-content: space-between;
+
+}
+.session-options {
+    margin-top: 20px;
+}
+
+.one-time-session,
+.long-term-session {
+    margin-top: 20px;
+}
+
+.mentorship-reason {
+    margin-top: 20px;
+}
+
+
+
+
+.salaryRange {
+    margin-top: 20px;    
+
+}
+
+.salaryRange span {
+    margin-right: 40px;
+    justify-content: space-between;
+   
+}
+
+.salaryRange label {
+    margin-right: 100px;
+}
+
+.salaryRange input {
+    width: 50px;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 50px;
+    color: #206F7E;
+}
+
+.session-options {
+    margin-top: 20px;
+}
+
+.one-time-session,
+.long-term-session {
+    margin-bottom: 20px;
+}
+
+.one-time-session label,
+.long-term-session label {
+    margin-right: 10px;
+}
+
+.one-time-session input[type="date"],
+.long-term-session input[type="date"],
+.one-time-session input[type="time"],
+.long-term-session input[type="time"] {
+    width: 150px;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+
+.time-range input[type='time']{
+        margin-right: 20px;
+}
+.RequestMentor-page button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #206F7E;
+    color: #fff;
+    border: none;
+    width: 200px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.RequestMentor-page button:hover {
+    background-color: #000000;
+}
+
+
+.session-options {
+    margin-top: 20px;
+}
+
+.one-time-session,
+.long-term-session {
+    margin-bottom: 20px;
+}
+
+.one-time-session label,
+.long-term-session label {
+    margin-right: 10px;
+}
+
+
+.long-term-session .session-type-options {
+    margin-top: 20px;
+}
+
+.long-term-session .duration-inputs {
+    margin-top: 10px;
+}
+
+.long-term-session .duration-inputs label {
+    margin-right: 10px;
+}
+
+.long-term-session .salaryRange {
+    margin-top: 20px;
+}
+
+.long-term-session .salaryRange span {
+    margin-right: 40px;
+}
+
+.long-term-session .salaryRange label {
+    margin-right: 20px;
+}
+
+.long-term-session .salaryRange input {
+    width: 100px;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+.trainee-range {
+    margin-top: 20px;
+
+}
+
+.trainee-range span {
+    margin-right: 40px;
+    justify-content: space-between;
+
+}
+
+.trainee-range label {
+    margin-right: 100px;
+}
+
+.trainee-range input {
+    width: 200px;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 50px;
+    color: #206F7E;
+}
+
+.error-message {
+    color: red;
+    margin-top: 5px;
+    font-size: 12px;
+}

@@ -1,0 +1,29 @@
+body{
+    background-color: #206F7E;
+}
+.chat-container {
+    display: flex;
+    flex-direction: column;
+    background-color: #206f7e;
+    width: 100%;
+    align-items: center;
+    height: 100vh;
+}
+
+.chat-content-container {
+    display: flex;
+    flex-grow: 1;
+    width: 100%;
+}
+
+
+
+.chat-main-content {
+    display: flex;
+    width: 80%;
+    align-items: flex-start;
+    margin-left: 20%;
+    background-color: #206F7E;
+    margin-top: 5%;
+}
+

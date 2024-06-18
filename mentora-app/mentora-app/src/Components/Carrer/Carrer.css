@@ -1,0 +1,25 @@
+body {
+    background-color: #206F7E;
+}
+
+.Schedule-container {
+    display: flex;
+    flex-direction: column;
+    background-color: #206F7E;
+}
+
+.Schedule-content-container {
+    display: flex;
+    flex-grow: 1;
+    width: 100%;
+}
+
+
+
+.Schedule-main-content {
+    flex-direction: row-reverse;
+    display: flex;
+    flex-grow: 1;
+    bottom: 0;
+
+}

@@ -1,0 +1,26 @@
+body {
+    background-color: #206F7E;
+    
+}
+
+.contactUs-container {
+    display: flex;
+    flex-direction: row;
+    background-color: #206F7E;
+}
+
+.contactUs-content-container {
+    display: flex;
+    flex-grow: 1;
+    width: 100%;
+}
+
+
+
+.contactUs-main-content {
+    flex-direction: row-reverse;
+    display: flex;
+    flex-grow: 1;
+    bottom: 0;
+
+}

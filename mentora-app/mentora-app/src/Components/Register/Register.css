@@ -1,0 +1,130 @@
+.Container{
+ height: 100vh;
+ background: linear-gradient(to bottom, rgba(255, 255, 255, 0.8), rgba(32, 111, 126, 0.7));
+ display: flex;
+ align-items: center;
+ justify-content: center;
+}
+.RegisterContainer{
+ display: flex;
+ border-radius: 15px;
+ overflow: hidden;
+ width: 75%;
+ height: 75%;
+ max-width: 1200px;
+ background: rgba(255, 255, 255, 1);
+ box-shadow: 0 0 20px rgba(42, 42, 42, 0.8);
+}
+.FirstSection{
+ flex: 1;
+ display: flex;
+ flex-direction: column;
+ gap: 15px;
+ justify-content: center;
+ padding: 0 20px;
+}
+.FirstSection .title{
+ font-size: 25px;
+ color: #206F7E;
+ font-family: 'Tauri', sans-serif;
+}
+.FirstSection form{
+ display: flex;
+ flex-direction: column;
+ gap:25px;
+}
+.FirstSection form .fieldsSection{
+ display: flex;
+ flex-direction: column;
+ gap:27px;
+}
+.FirstSection form .fieldsSection .input-container{
+ position: relative;
+ height: 30px;
+ display: flex;
+}
+.FirstSection form .fieldsSection .input-container .label {
+ position: absolute;
+ top: 8px;
+ left: 5px;
+ color: #000000;
+ opacity: 0.8;
+ font-size: 12px;
+ transition: top 0.3s;
+ font-family: 'Tauri', sans-serif;
+ }
+ .FirstSection form .fieldsSection .input-container.focused label {
+ top: -16px;
+ font-size: 12px;
+ color: #206F7E;
+}
+.FirstSection form .fieldsSection .input-container input{
+ width: 100%;
+ height: 100%;
+ font-size: 16px;
+ border:solid #206F7E 1.2px;
+ border-radius: 5px;
+ padding-left: 10px;
+  }
+  
+  .FirstSection form .fieldsSection .input-container input:focus{
+  outline-color: #206F7E ;
+ }
+ input.borderRed{
+  border-color: red ;
+ }
+ .input-container p{
+  position: absolute;
+  top: 15px;
+  left: 5px;
+  font-size: 14px;
+  color:red;
+ }
+ .vector img{
+ position: absolute;
+ right: 8px;
+ top: 8px;
+ width: 17px;
+}
+.continueButton button{
+ width: 100%;
+ height: 33px;
+ border-radius: 5px;
+ border:  none;
+ background-color: #206F7E;
+ color: white;
+ font-family: 'Trocchi', serif;
+ font-size: 16px;
+ cursor: pointer;
+}
+.or p{
+ font-family: 'Inter', sans-serif;
+ font-size: 14px;
+ border-bottom: 1px solid black;
+ text-align: center;
+}
+.social{
+ display: flex;
+ width: 80%;
+ justify-content:space-evenly;
+ margin: 0 auto;
+}
+.social img{
+ width: 22px;
+ cursor: pointer;
+}
+.alreadyHaveAccount{
+ margin: 0 auto;
+}
+.alreadyHaveAccount p a{
+ color: #206F7E;
+}
+.SecondSection{
+ flex: 2;
+ background-color:#206F7E;
+}
+.SecondSection img{
+ width: 100%;
+ height: 100%;
+}
+

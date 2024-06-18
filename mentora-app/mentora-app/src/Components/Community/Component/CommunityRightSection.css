@@ -1,0 +1,151 @@
+
+.top-bar {   
+    background-color: rgb(255, 255, 255);
+     box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    height: 30px;
+    border-bottom: 1px solid #ccc;
+}
+
+
+.community-details {
+    flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+        /* Added this line to make children flex items */
+}
+.communityName {
+    color: #206F7E;
+    margin: 0px;
+    display: flex;
+    justify-content: start;
+    text-transform: capitalize;
+    font-family: "trochi";
+}
+.communityMembers{
+    color:#206F7E;
+    opacity: 0.7;
+    font-size: 15px;
+}
+.popupCreateCommunity {
+    background-color: #206F7E;
+    border-radius: 10px;
+    z-index: 999999999;
+    position: absolute;
+    top: 15%;
+    left: 0%;
+    width: 90%;
+    color: white;
+    font-family: "trochi";
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    height: 70%;
+}
+.header-create-community{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+}
+.header-create-community div{
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+
+
+.input-community-name{
+ width: 96%;
+ background: transparent;
+ outline: none;
+ border: 1px solid white;
+ border-radius: 5px;
+ padding: 10px 5px;
+ color: white;
+}
+
+.popupCreateCommunity .form,.popupCreateCommunity .form-find {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+    gap: 25px;
+}
+
+.popupCreateCommunity .form .input-container,.popupCreateCommunity .form-find .input-container{
+    position: relative;
+    height: 40px;
+    display: flex;
+    width: 100%;
+   }
+   .popupCreateCommunity .form .input-container .label,.popupCreateCommunity .form-find .input-container .label {
+    position: absolute;
+    top: 10px;
+    left: 5px;
+    color: white;
+    opacity: 0.8;
+    font-size: 12px;
+    transition: top 0.3s;
+    font-family: 'Tauri', sans-serif;
+    text-transform: capitalize;
+
+    }
+    .popupCreateCommunity .form .input-container.focused label,.popupCreateCommunity .form-find .input-container.focused label {
+    top: -16px;
+    font-size: 12px;
+    color: white;
+   }
+   
+     .input-community-name:focus{
+     outline-color: white ;
+    }
+    .createCommunityButton{
+        width: 96%;
+        display: flex;
+        justify-content: flex-end;
+    }
+    .createCommunityButton button{
+        padding: 10px 8px;
+        border-radius: 10px;
+        background-color: white;
+        color: #206F7E;
+        outline: none;
+        border: none;
+        font-family: "trochi";
+        font-size: 16px;
+        cursor: pointer;
+    }
+    .exit-popup{
+        cursor: pointer;
+    }
+    .all-form{
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    }
+    .communityNameIcon {
+        position: absolute;
+        top: 25%;
+        right: 3%;
+    }
+    .form-find{
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+            width: 100%;
+            gap: 25px;
+            height: 100%;
+            display: flex;
+           justify-content: space-between;
+   
+    }
+    .popupCreateCommunity .twoOptions label p{
+        color: white;
+        font-family: "trochi";
+    }

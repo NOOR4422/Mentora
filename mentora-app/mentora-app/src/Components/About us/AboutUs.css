@@ -1,0 +1,28 @@
+body {
+    background-color: #206F7E;
+}
+
+.AboutUs-container {
+    display: flex;
+    flex-direction: row;
+    background-color: #206F7E;
+   
+}
+
+.AboutUs-content-container {
+    display: flex;
+    flex-grow: 1;
+    width: 100%;
+}
+
+
+
+.AboutUs-main-content {
+    /* flex-direction: row-reverse; */
+    display: flex;
+    /* background-color: aqua; */
+    /* flex-grow: 1; */
+    /* bottom: 0; */
+   
+
+}

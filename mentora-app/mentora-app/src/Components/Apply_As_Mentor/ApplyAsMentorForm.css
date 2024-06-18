@@ -1,0 +1,115 @@
+body {
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+    background-color: #f0f0f0;
+}
+
+.container {
+    height: 100vh;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.80) 0%, rgba(32, 111, 126, 0.70) 96.2%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.applyAsMentorContainer {
+    display: flex;
+    border-radius: 15px;
+    overflow: hidden;
+    width: 75%;
+    height: 85%;
+    max-width: 1200px;
+    background: rgba(32, 111, 126, 0.80);
+    box-shadow: 0 0 20px rgba(42, 42, 42, 0.8);
+}
+
+.leftSection {
+    flex: 3;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    background-color: #ffffff;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.applyAsMentorText {
+    text-align: left;
+    color: #206F7E;
+    margin-bottom: 10px;
+}
+
+.applyAsMentorText .greenText {
+    color: #232323;
+}
+
+.applyAsMentorForm {
+    display: flex;
+    flex-direction: column;
+    color: #206F7E;
+    gap: 5px;
+}
+
+.inputField {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #206F7E;
+    box-sizing: border-box;
+}
+
+.inputWithIconContainer {
+    position: relative;
+}
+
+.icon {
+    position: absolute;
+    right: 10px;
+    top: 35%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    height: 20px;
+    width: 20px;
+}
+
+.nextButton {
+    background-color: #206F7E;
+    color: #ffffff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.nextText {
+    flex: 1;
+}
+
+.arrowIcon {
+    height: 15px;
+    width: 15px;
+    margin-left: 5px;
+    margin-right: 0;
+}
+
+.rightSection {
+    flex: 7;
+    overflow: hidden;
+}
+
+.mentorImage {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.errorText {
+    color: #ff0000;
+    font-size: 12px;
+    margin-top: -8px;
+    margin-bottom: 2px;
+}

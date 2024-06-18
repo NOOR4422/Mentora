@@ -1,0 +1,157 @@
+body {
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+    background-color: #f0f0f0;
+}
+
+.container {
+    height: 100vh;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.80) 0%, rgba(32, 111, 126, 0.70) 96.2%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.applyAsMentorContainer {
+    display: flex;
+    border-radius: 15px;
+    overflow: hidden;
+    width: 75%;
+    height: 85%;
+    max-width: 1200px;
+    background: rgba(32, 111, 126, 0.80);
+    box-shadow: 0 0 20px rgba(42, 42, 42, 0.8);
+}
+
+.leftSection {
+    flex: 3;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    background-color: #ffffff;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.applyAsMentorText {
+    text-align: left;
+    color: #206F7E;
+    margin-bottom: 10px;
+}
+
+.applyAsMentorText span {
+    color: #232323;
+}
+
+.applyAsMentorForm {
+    display: flex;
+    flex-direction: column;
+    color: #206F7E;
+    gap: 5px;
+}
+
+.inputField {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.inputField .counterValue {
+  margin-right: 10px; 
+}
+
+.inputField .counterIcon {
+  font-size: 20px;
+  color: #ffffff;
+  border: none;
+  background-color: transparent;
+  padding: 0;
+  margin: 0;
+}
+
+
+
+.counterButton {
+    font-size: 18px;
+    cursor: pointer;
+    padding: 5px;
+    background-color: #206F7E;
+    color: #ffffff;
+    border: 1px solid #206F7E;
+    border-radius: 5px;
+}
+
+.counterButton:hover {
+    background-color: #205d68;
+}
+
+
+
+.inputField span {
+    flex: 1;
+    padding: 10px;
+    margin-right: 20px;
+    border: 1px solid #206F7E;
+    border-radius: 5px;
+    box-sizing: border-box;
+    font-size: 14px;
+    text-align: center;
+    color: #206F7E;
+}
+
+.inputField button {
+    margin-left: auto;
+}
+.inputField .counterValue {
+    margin-right: 20px;
+}
+
+.inputField .counterIcon {
+    font-size: 20px;
+    color: #ffffff;
+    background-color: #206F7E;
+    border: 1px solid #206F7E;
+    border-radius: 5px;
+    padding: 5px;
+    margin: 0;
+}
+.nextButton {
+    background-color: #206F7E;
+    color: #ffffff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.nextText {
+    flex: 1;
+}
+
+.addIcon {
+    font-size: 40px;
+    margin-right: 5px;
+}
+
+.rightSection {
+    flex: 7;
+    overflow: hidden;
+}
+
+.mentorImage {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.errorText {
+    color: #ff0000;
+    font-size: 12px;
+    margin-top: -8px;
+    margin-bottom: 2px;
+}
+

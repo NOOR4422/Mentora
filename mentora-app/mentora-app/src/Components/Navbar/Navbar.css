@@ -1,0 +1,77 @@
+.navbar{
+    background-color: #206f7e;
+    color: white;
+    width: 100%;
+    /* padding:6px; */
+    position: fixed;
+    top: 0;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    z-index: 99999;
+}
+.navbar .MentoraLogo{
+    /* background-color: red; */
+    width: 27%;
+}
+.navbar .MentoraLogo img{
+   width: 40%;
+}
+.navbar .items{
+    display: flex;
+    width: 30%;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.nav-item a{
+    text-decoration: none;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: 'Trocchi', serif;
+    font-size: 14px;
+    letter-spacing:.03cm;
+}
+.nav-item span {
+    margin-top: 5px;
+    font-size: 13px;
+}
+
+.search-bar{
+    display: flex;
+    align-items: center;
+    width: 33%;
+    height: 40px;
+    background-color: white;
+    border-radius: 10px;
+}
+
+.search-container{
+    display: flex;
+    align-items: center;
+    width: 100%;
+    justify-content: space-around;
+    padding: 10px 5px; 
+}
+
+.search-bar input{
+    width: 85%;
+    color: #206f7e;
+    /* padding: 12px 0px; */
+    border: none;
+    outline: none;
+    cursor: pointer;
+}
+
+.search-bar button{
+    color: #206f7e;
+    border: none;
+    cursor: pointer;
+    background-color: transparent;
+    width: 10%;
+}
+.search-bar button img{
+    width: 150%;
+}
