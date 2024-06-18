@@ -60,16 +60,26 @@ const LoginPage = () => {
      })
    }
    setFormErrors(errors);
-   
-   if (formData.email&&formData.password) {
+
+   if (formData.email && formData.password) {
    try {
-      const response = await axios.post('http://localhost:4000/api/user/login', formData);
-      const { Token, refreshToken } = response.data;
-      
+     const response = await axios.post(
+       process.env.REACT_APP_URL + "user/login",
+       formData,
+       {
+         headers: {
+           "Content-Type": "application/json",
+         },
+       }
+     );
+
+     const { Token, refreshToken } = response.data;
+     console.log(response.data);
       if (response.status === 200) {
         cookies.set('Bearer', Token);
         // user.setAuth({Token,refreshToken})
-        console.log(user,"contex")
+        console.log(user, "contex")
+        user.setAuth(response.data);
         console.log(response.data.message);
         setOverlay(true)
         setSuccessOtp(response.data.message);
@@ -135,7 +145,7 @@ const LoginPage = () => {
           <form className="loginForm" onSubmit={handleFormSubmit}>
             <label className="label">Email:</label>
             <input
-              type="email"
+              type="email"  
               name="email"
               placeholder="Enter your email"
               value={formData.email}

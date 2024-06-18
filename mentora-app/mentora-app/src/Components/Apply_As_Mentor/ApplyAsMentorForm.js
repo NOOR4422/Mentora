@@ -1,12 +1,16 @@
-import React, { useState } from "react";
-import "./ApplyAsMentorForm.css"; 
+import React, { useContext, useState } from "react";
+import "./ApplyAsMentorForm.css";
 import image from "./mentor.png";
 import linkedinIcon from "./linkedin-icon.png";
 import githubIcon from "./github-icon.png";
 import cvIcon from "./cv-icon.png";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+import { User } from "../Context/userContext";
 
 const ApplyAsMentorForm = () => {
+  const { auth } = useContext(User);
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     applyAs: "Mentor",
     bio: "",
@@ -76,12 +80,26 @@ const ApplyAsMentorForm = () => {
     return Object.keys(errors).length === 0;
   };
 
-  const handleFormSubmit = (e) => {
+  const handleFormSubmit = async(e) => {
     e.preventDefault();
 
     if (validateForm()) {
       console.log("Form submitted:", formData);
-      // Add your form submission logic here
+      // console.log(auth);
+      try {
+        const response = await axios.post(process.env.REACT_APP_URL + "Application",
+          formData, {
+            headers: {
+              Authorization: "Bearer " + auth.Token,
+              "Content-Type" :"application/json"
+            }
+          }
+        )
+        console.log(response);
+        navigate("/addTrack");
+      } catch (error) {
+        console.error(error.message);
+      }
     } else {
       console.log("Form has errors. Please fix them.");
     }
@@ -176,12 +194,10 @@ const ApplyAsMentorForm = () => {
               <div className="errorText">{formErrors.whyMentor}</div>
             )}
 
-            
-         <Link to='/addTrack'> <button type="submit" className="nextButton">
-              <span className="nextText">Next</span>{" "}
+            <button type="submit" className="nextButton">
+              <span className="nextText">Next</span>
               <span className="arrowIcon">&rarr;</span>
-      
-            </button></Link>
+            </button>
           </form>
         </div>
       </div>

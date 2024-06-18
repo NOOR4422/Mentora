@@ -7,6 +7,7 @@ import {
   faChevronUp,
   faChevronDown,
 } from "@fortawesome/free-solid-svg-icons";
+import { Link } from "react-router-dom";
 
 const AddTrackForm = () => {
   const [formData, setFormData] = useState({
@@ -82,6 +83,13 @@ const AddTrackForm = () => {
 
     if (validateForm()) {
       console.log("Form submitted:", formData);
+
+      try {
+        
+      } catch (error) {
+        console.error(error.message);
+      }
+
     } else {
       console.log("Form has errors. Please fix them.");
     }
@@ -90,9 +98,10 @@ const AddTrackForm = () => {
   return (
     <div className="container">
       <div className="applyAsMentorContainer">
-       
         <div className="leftSection">
-          <h1 className="applyAsMentorText">Add <span>Track</span> </h1>
+          <h1 className="applyAsMentorText">
+            Add <span>Track</span>{" "}
+          </h1>
           <form className="applyAsMentorForm" onSubmit={handleFormSubmit}>
             <label>Track:</label>
             <input
@@ -124,6 +133,7 @@ const AddTrackForm = () => {
                 type="button"
                 onClick={() => handleYearsOfExperienceChange("decrease")}
                 className="counterButton"
+                style={{ padding: "0px 4px",float: "right"  }}
               >
                 <FontAwesomeIcon icon={faChevronDown} className="counterIcon" />
               </button>
@@ -131,6 +141,7 @@ const AddTrackForm = () => {
                 type="button"
                 onClick={() => handleYearsOfExperienceChange("increase")}
                 className="counterButton"
+                style={{ padding: "0px 4px",  float: "right"  }}
               >
                 <FontAwesomeIcon icon={faChevronUp} className="counterIcon" />
               </button>
@@ -139,16 +150,21 @@ const AddTrackForm = () => {
               <div className="errorText">{formErrors.yearsOfExperience}</div>
             )}
 
-            <button type="submit" className="nextButton">
-              <span className="nextText">Add Another Track</span>{" "}
+            <button type="button" className="nextButton">
+              <span className="nextText">Add Another Track</span>
               <FontAwesomeIcon icon={faPlus} />
             </button>
+            {/* <Link to="/apply-mentor">
+              <button type="button" className="nextButton">
+                <span className="nextText">previous</span>
+              </button>
+            </Link> */}
             <button type="submit" className="nextButton">
-              <span className="nextText">Apply</span>{" "}
+              <span className="nextText">Apply</span>
             </button>
           </form>
-              </div>
-              <div className="rightSection">
+        </div>
+        <div className="rightSection">
           <img src={image} alt="Mentor" className="mentorImage" />
         </div>
       </div>
