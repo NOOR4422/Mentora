@@ -26,6 +26,7 @@ const ChatTopbar = ({
   const [filePreview, setFilePreview] = useState(null);
   const fileInputRef = useRef(null);
   const [messages, setMessages] = useState([]);
+  const [sent, setSent] = useState(false);
   const [selectedMessageId, setSelectedMessageId] = useState(null);
   const [isPopupMenuOpen, setIsPopupMenuOpen] = useState(false);
   const popupMenuRef = useRef(null);
@@ -33,7 +34,36 @@ const ChatTopbar = ({
   const [expandedImage, setExpandedImage] = useState(null);
   const cookies = new Cookies();
   const token = cookies.get("Bearer");
-  console.log(token);
+  const currentUserId = "666f3fd821dbcbbce379a81e"; // Assuming this is the current user's ID, replace with dynamic value if necessary
+  const selectedChatId = "666f402f21dbcbbce379a82c"; // Assuming this is the current chat ID, replace with dynamic value if necessary
+
+  useEffect(() => {
+    const fetchMessagesData = async () => {
+      try {
+        const response = await fetch(
+          `http://localhost:4000/api/chat/findChat/${selectedChatId}`,
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error("Network response was not ok " + response.statusText);
+        }
+
+        const result = await response.json();
+        setMessages(result.data.messages);
+        setSent(true);
+      } catch (error) {
+        console.error("Error fetching chat data:", error);
+      }
+    };
+
+    fetchMessagesData();
+  }, [token, selectedChatId]);
 
   const handleOptionsClick = () => {
     setIsOptionsMenuOpen(!isOptionsMenuOpen);
@@ -85,124 +115,55 @@ const ChatTopbar = ({
     }
   };
 
-  useEffect(() => {
-    const fetchMessages = async () => {
+  const handleSendClick = async () => {
+    if (inputValue.trim() !== "" || filePreview) {
+      const formData = new FormData();
+      formData.append("files", filePreview); // assuming filePreview is a base64 string
+      formData.append("message", inputValue);
+      formData.append("senderID", currentUserId); // Set the sender ID
+      formData.append("chatID", selectedChatId); // Set the chat ID
+      formData.append("receiveId", "6654c90f5beffbb507f7be47"); // replace with dynamic value
+
       try {
-        const response = await fetch(
-          "http://localhost:4000/api/chat/messages",
-          {
-            method: "GET",
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
+        const response = await fetch("http://localhost:4000/api/chat/", {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          body: formData,
+        });
 
         if (response.ok) {
-          const messages = await response.json();
-          setMessages(messages);
+          const result = await response.json();
+          console.log("Message Sent:", result);
+
+          // Update the messages state with the new message
+          setMessages((prevMessages) => [
+            ...prevMessages,
+            {
+              id: result.id,
+              message: inputValue,
+              files: filePreview
+                ? [{ filePath: filePreview, fileType: "image/jpeg" }]
+                : [],
+              senderID: currentUserId,
+              createdAt: new Date(),
+              isRead: false,
+            },
+          ]);
+          setInputValue("");
+          setFilePreview(null);
+          if (fileInputRef.current) {
+            fileInputRef.current.value = null;
+          }
         } else {
-          throw new Error("Failed to fetch messages");
+          throw new Error("Failed to send message");
         }
       } catch (error) {
-        console.error("Error fetching messages:", error);
+        console.error("Error sending message:", error);
       }
-    };
-
-    fetchMessages();
-  }, []);
-
-const handleSendClick = async () => {
-  if (inputValue.trim() !== "" || filePreview) {
-    const formData = new FormData();
-    formData.append("files", filePreview); // assuming filePreview is a base64 string
-    formData.append("receiveId", "65bbec61e555870dd0a4837d"); // replace with dynamic value
-    formData.append("message", inputValue);
-
-    try {
-      const response = await fetch("http://localhost:4000/api/chat/", {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        body: formData,
-      });
-
-      if (response.ok) {
-        const result = await response.json();
-        console.log("Message Sent:", result);
-
-        setMessages((prevMessages) => [
-          ...prevMessages,
-          {
-            id: result.messageId,
-            text: inputValue,
-            filePreview: filePreview,
-            sent: true,
-            time: getCurrentTime(),
-            seen: false, //
-          },
-        ]);
-
-        setInputValue("");
-        setFilePreview(null);
-        if (fileInputRef.current) {
-          fileInputRef.current.value = null;
-        }
-      } else {
-        throw new Error("Failed to send message");
-      }
-    } catch (error) {
-      console.error("Error sending message:", error);
     }
-  }
-};
-
-const handleSendEdit = async () => {
-  try {
-    const selectedMessage = messages.find(
-      (message) => message.id === selectedMessageId
-    );
-
-    if (!selectedMessage) {
-      console.error("Selected message not found");
-      return;
-    }
-
-    const response = await fetch(
-      `http://localhost:4000/api/chat/editMessage/66549c325b252127e2dbcaf4${selectedMessage.id}`,
-      {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          text: inputValue,
-          filePreview,
-        }),
-      }
-    );
-
-    if (response.ok) {
-      const updatedMessage = await response.json();
-      const updatedMessages = messages.map((message) =>
-        message.id === selectedMessageId ? updatedMessage : message
-      );
-
-      setMessages(updatedMessages);
-      setInputValue("");
-      setFilePreview(null);
-      setSelectedMessageId(null);
-      localStorage.setItem("chatMessages", JSON.stringify(updatedMessages));
-    } else {
-      throw new Error("Failed to edit message");
-    }
-  } catch (error) {
-    console.error("Error editing message:", error);
-  }
-};
-
-
+  };
 
   const handleImageClick = (imageSrc) => {
     setExpandedImage(imageSrc);
@@ -222,8 +183,6 @@ const handleSendEdit = async () => {
     setIsEmotionsOpen(false);
   };
 
-  
-
   const handleStatusClick = () => {};
 
   const handleEmotionClick = (emoji) => {
@@ -241,95 +200,123 @@ const handleSendEdit = async () => {
     setIsPopupMenuOpen(false);
   };
 
-  const handleEditClick = () => {
-    const selectedMessage = messages.find(
-      (message) => message.id === selectedMessageId
-    );
-    if (selectedMessage) {
-      setInputValue(selectedMessage.text);
-      setFilePreview(selectedMessage.filePreview || null);
-      setIsPopupMenuOpen(false);
-    }
-  };
 
-  const handleDeleteClick = async () => {
+
+  const fetchChatData = async (selectedChatId) => {
     try {
       const response = await fetch(
-        `http://localhost:4000/api/chat/deleteMessage/${selectedMessageId}`,
+        `http://localhost:4000/api/chat/findChat/${selectedChatId}`,
         {
-          method: "DELETE",
+          method: "GET",
           headers: {
-            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
           },
         }
       );
 
-      if (response.ok) {
-        const updatedMessages = messages.filter(
-          (message) => message.id !== selectedMessageId
-        );
-        setMessages(updatedMessages);
-        setSelectedMessageId(null);
-        setIsPopupMenuOpen(false);
-        console.log("Message deleted successfully!");
-      } else {
-        throw new Error("Failed to delete message");
+      if (!response.ok) {
+        throw new Error("Network response was not ok " + response.statusText);
       }
+
+      const result = await response.json();
+      setMessages(result.data.messages);
+      setSent(true);
     } catch (error) {
-      console.error("Error deleting message:", error);
+      console.error("Error fetching chat data:", error);
     }
   };
 
-  // const handleSendEdit = async () => {
-  //   try {
-  //     const selectedMessage = messages.find(
-  //       (message) => message.id === selectedMessageId
-  //     );
 
-  //     if (!selectedMessage) {
-  //       console.error("Selected message not found");
-  //       return;
-  //     }
 
-  //     const response = await fetch(
-  //       `http://localhost:4000/api/chat/editMessage/${selectedMessage.id}`,
-  //       {
-  //         method: "PUT",
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //         },
-  //         body: JSON.stringify({
-  //           text: inputValue,
-  //           filePreview,
-  //         }),
-  //       }
-  //     );
 
-  //     if (response.ok) {
-  //       const updatedMessage = await response.json();
-  //       const updatedMessages = messages.map((message) =>
-  //         message.id === selectedMessageId ? updatedMessage : message
-  //       );
 
-  //       setMessages(updatedMessages);
-  //       setInputValue("");
-  //       setFilePreview(null);
-  //       setSelectedMessageId(null);
-  //       localStorage.setItem("chatMessages", JSON.stringify(updatedMessages));
-  //     } else {
-  //       throw new Error("Failed to edit message");
-  //     }
-  //   } catch (error) {
-  //     console.error("Error editing message:", error);
-  //   }
-  // };
 
-  const getCurrentTime = () => {
-    const now = new Date();
-    const hours = now.getHours();
-    const minutes = now.getMinutes();
-    return `${hours}:${minutes < 10 ? "0" : ""}${minutes}`;
+
+ const handleEditClick = () => {
+   const selectedMessage = messages.find(
+     (message) => message._id === selectedMessageId
+   );
+   if (selectedMessage) {
+     setInputValue(selectedMessage.message);
+     setFilePreview(selectedMessage.files[0]?.filePath || null);
+     setIsPopupMenuOpen(false);
+   }
+ };
+
+ const handleDeleteClick = async () => {
+   if (!selectedMessageId) return;
+
+   try {
+     const response = await fetch(
+       `http://localhost:4000/api/chat/deleteMessage/${selectedMessageId}`,
+       {
+         method: "DELETE",
+         headers: {
+           Authorization: `Bearer ${token}`,
+           "Content-Type": "application/json",
+         },
+       }
+     );
+
+     if (response.ok) {
+       const updatedMessages = messages.filter(
+         (message) => message._id !== selectedMessageId
+       );
+       setMessages(updatedMessages);
+       setSelectedMessageId(null);
+       setIsPopupMenuOpen(false);
+       console.log("Message deleted successfully!");
+     } else {
+       throw new Error("Failed to delete message");
+     }
+   } catch (error) {
+     console.error("Error deleting message:", error);
+   }
+ };
+
+  const handleSendEdit = async () => {
+    if (!selectedMessageId) return;
+
+    try {
+      const response = await fetch(
+        `http://localhost:4000/api/chat/editMessage/${selectedMessageId}`,
+        {
+          method: "PUT",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ message: inputValue }),
+        }
+      );
+
+      if (response.ok) {
+        const updatedMessages = messages.map((message) =>
+          message._id === selectedMessageId
+            ? { ...message, message: inputValue }
+            : message
+        );
+        setMessages(updatedMessages);
+        setSelectedMessageId(null);
+        setInputValue("");
+        setFilePreview(null);
+        setIsPopupMenuOpen(false);
+        console.log("Message updated successfully!");
+      } else {
+        const errorText = await response.text();
+        console.error("Failed to update message:", errorText);
+        throw new Error("Failed to update message");
+      }
+    } catch (error) {
+      console.error("Error updating message:", error);
+    }
   };
+
+
+
+
+
+
 
   return (
     <div className="right-section">
@@ -358,14 +345,20 @@ const handleSendEdit = async () => {
             {messages.map((message, index) => (
               <div
                 key={index}
-                className={`message ${message.sent ? "sent" : "received"}`}
+                className={`message ${
+                  message.senderID === "666f3fd821dbcbbce379a81e"
+                    ? "sent"
+                    : "received"
+                }`}
                 onContextMenu={(event) =>
-                  handlePopupMenuOpen(message.id, event)
+                  handlePopupMenuOpen(message._id, event)
                 }
               >
-                <div className="message-info"></div>
+                <div className="message-info">
+                 
+                </div>
                 <div className="message-content">
-                  {isPopupMenuOpen && selectedMessageId === message.id && (
+                  {isPopupMenuOpen && selectedMessageId === message._id && (
                     <div className="popup-menu" ref={popupMenuRef}>
                       <div onClick={handleEditClick}>
                         <FontAwesomeIcon icon={faEdit} /> Edit
@@ -375,28 +368,34 @@ const handleSendEdit = async () => {
                       </div>
                     </div>
                   )}
-                  {message.filePreview && (
+                  {message.files && message.files.length > 0 && (
                     <div className="file-preview">
-                      {message.filePreview.startsWith("data:image") && (
-                        <img src={message.filePreview} alt="File Preview" />
-                      )}
-                      {message.filePreview.startsWith(
-                        "data:application/pdf"
-                      ) && (
-                        <embed
-                          src={message.filePreview}
-                          type="application/pdf"
-                        />
-                      )}
+                      {message.files.map((file, fileIndex) => (
+                        <div key={fileIndex}>
+                          {file.fileType.startsWith("image/") ? (
+                            <img
+                              src={`http://localhost:4000/${file.filePath}`}
+                              alt="File Preview"
+                            />
+                          ) : (
+                            <embed
+                              src={`http://localhost:4000/${file.filePath}`}
+                              type={file.fileType}
+                            />
+                          )}
+                        </div>
+                      ))}
                     </div>
                   )}
-                  <p className="text">{message.text}</p>
+                  <p className="text">{message.message}</p>
                   <div style={{ display: "flex", alignItems: "center" }}>
-                    <p className="time">{message.time}</p>
+                    <p className="time">
+                      {new Date(message.createdAt).toLocaleTimeString()}
+                    </p>
                     <div className="status-icons">
                       <FontAwesomeIcon
                         icon={faCheck}
-                        className={message.seen ? "seen" : "not-seen"}
+                        className={message.isRead ? "seen" : "not-seen"}
                         onClick={handleStatusClick}
                       />
                     </div>
