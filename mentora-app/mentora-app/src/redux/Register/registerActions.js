@@ -29,7 +29,7 @@ export const updateUserData = (userData) => {
       dispatch(postUserDataRequest());
   
       try {
-        const response = await axios.post('http://localhost:4000/api/user/register', userData);
+        const response = await axios.post('https://mentora-5s1z.onrender.com/api/user/register', userData);
         dispatch(postUserDataSuccess(response.data));
         console.log(response)
         dispatch(setRegistrationStatus(true));
@@ -44,6 +44,7 @@ export const updateUserData = (userData) => {
           console.log('Unexpected response:', response.data);
         }
       } catch (error) {
+        console.log(error);
         dispatch(postUserDataFailure(error.message));
         if (error.response && error.response.status === 400) {
           console.error('Error:', error.response.data.error);

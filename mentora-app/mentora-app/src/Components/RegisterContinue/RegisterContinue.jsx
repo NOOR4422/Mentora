@@ -127,7 +127,6 @@ const RegisterContinue=({ updateUserData, postUserData }) =>{
       }
       
       else {
-       
         Navigate('/registerContinue',{replace:true})
       }
       
