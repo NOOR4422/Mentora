@@ -10,6 +10,7 @@ const ChatPage = () => {
   const [selectedChat, setSelectedChat] = useState(null);
   const [chatsData, setChatsData] = useState([]);
   const [chatDetails, setChatDetails] = useState(null);
+  const [userName, setUserName] = useState([]);
 
   const cookies = new Cookies();
   const token = cookies.get("Bearer");
@@ -70,7 +71,14 @@ const ChatPage = () => {
           console.log('sucessssss')
           const result2 = await response2.json();
 console.log(result2.data)
-      
+  const firstName = result2.data.users[1].firstName;
+  const lastName = result2.data.users[1].lastName;
+
+  const userName = `${firstName} ${lastName}`;
+  console.log(userName);
+setUserName(userName)
+          const selectedChat = result2.data._id
+          setSelectedChat(selectedChat)
 } 
       } catch (error) {
         console.error("Error fetching chat content:", error);
@@ -88,30 +96,8 @@ console.log(result2.data)
       setChatDetails(null);
     }
   };
+          console.log('idddddddddd', selectedChat)
 
-  // const fetchChatData = async (chatId) => {
-  //   try {
-  //     const response = await fetch(
-  //       `http://localhost:4000/api/chat/findChat/666f402f21dbcbbce379a82c`,
-  //       {
-  //         method: "GET",
-  //         headers: {
-  //           Authorization: `Bearer ${token}`,
-  //         },
-  //       }
-  //     );
-
-  //     if (response.ok) {
-  //       throw new Error("Network response was not ok " + response.statusText);
-  //       console.log('erorrrr')
-  //     }
-
-  //     const result = await response.json();
-  //     setChatDetails(result.data);
-  //   } catch (error) {
-  //     console.error("Error fetching chat details:", error);
-  //   }
-  // };
 
 
 
@@ -199,7 +185,7 @@ console.log(result2.data)
         </div>
         <div className="chat-page-container">
           <div className="chat-page">
-            <ChatTopbar selectedChat={selectedChat} chatDetails={chatDetails} />
+            <ChatTopbar selectedChat={selectedChat} chatDetails={chatDetails} userName={userName} />
           </div>
         </div>
       </div>
