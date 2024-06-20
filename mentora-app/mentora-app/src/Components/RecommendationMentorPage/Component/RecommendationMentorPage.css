@@ -1,0 +1,122 @@
+.all-RequestMentor-container {
+ 
+    border-radius: 10px;
+    background-color: #ffffff;
+
+    justify-content: left;
+    color: #206F7E;
+    box-shadow: 3px 3px 10px 10px rgba(0.1, 0.1, 0.1, .1);
+    width: 74%;
+    padding-right: 10px;
+    margin-bottom: 10px;
+    margin-right: 10px;
+    display: flex;
+   align-items: start;
+    flex-direction: column;
+   
+    margin-top: 90px;
+    height: auto;
+        margin-right: 5%;
+}
+
+.RequestMentor-Container {
+    width: 98%;
+    flex-direction: row;
+    background-color: #ffffff;
+    display: flex;
+    min-height: 80vh;
+    margin: 20px;
+    border-radius: 10px;
+}
+.RequestMentor-page-container{
+    display: flex;
+}
+.track-selector,
+.language-selector,
+.gender-selector {
+    max-width: 400px;
+    margin: 0 ;
+}
+
+
+
+.mentor-page {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+}
+
+.page-title {
+    text-align: left;
+    font-size: 24px;
+    margin-bottom: 20px;
+
+}
+
+.mentor-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: space-between;
+}
+
+.mentor-card {
+    width: calc(49% - 10px);
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+    display: flex;
+}
+
+.mentor-card:hover {
+    transform: translateY(-5px);
+}
+.mentor-image2{
+    display: flex;
+    align-items: center;
+    padding: 0px 0 0px 10px;
+}
+.mentor-image {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    flex-shrink: 0;
+    display: flex;
+    
+}
+
+.mentor-details {
+    padding: 15px;
+}
+
+.mentor-name {
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-size: 20px;
+}
+
+.mentor-info {
+    margin-bottom: 8px;
+    font-size: 16px;
+}
+
+.view-profile-btn {
+    background-color: #206F7E;
+    color: #fff;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.view-profile-btn:hover {
+    background-color: #377886;
+}

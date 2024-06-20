@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector,useDispatch } from 'react-redux';
 import { updateLoveCount ,addComment,updateCommentCount,deleteArticle,postArticleToAPI} from '../../redux/Articles/articlesActions';
 import avatar from "../../assets/Default_avatar.png";
@@ -29,7 +29,11 @@ const Post = ({handleOverlay}) => {
   
   const userData = useSelector(state => state.register.userData);
   const {firstName ,lastName} =userData;
+  
   const articles = useSelector(state => state.articles.articles);
+  const [datetimeStr, setDatetimeStr] = useState('');
+  const [dateStr, setDateStr] = useState('2024-06-20');
+  const [timeStr, setTimeStr] = useState('02:17');
   const dispatch = useDispatch();
   const reversedArticles = [...articles].reverse();
 
@@ -99,35 +103,67 @@ const Post = ({handleOverlay}) => {
     setShowMeneOption();
   };
 
+  useEffect(() => {
+    if (articles.date) {
+      let dateValue = '2024-06-20T12:02:17.619Z';
+      if (typeof dateValue !== 'string') {
+        dateValue = dateValue.toString();
+      }
+
+      
+      const parsedDate = new Date(dateValue);
+      if (!isNaN(parsedDate)) {
+        setDatetimeStr(dateValue);
+      } else {
+        console.log('Invalid date format:', dateValue);
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    if (datetimeStr) {
+      const parsedDate = new Date(datetimeStr);
+      if (!isNaN(parsedDate)) {
+        setDateStr(parsedDate.toISOString().split('T')[0]);
+        setTimeStr(parsedDate.toTimeString().split(' ')[0]);
+      }
+      else {
+        console.log('Invalid date');
+      }
+    }
+    console.log("date is ",dateStr);
+    console.log("time is ",timeStr);
+  }, []);
+
   
   return (
     <>
       {reversedArticles.map((article) => (
         <>
-        <div className='post' key={article.id}>
+        <div className='post' key={article._id}>
           <div className="post-header">
             <div className="user-info">
               <img src={avatar} alt="not found" />
               <div className="user-details">
-                <h3>{article.username}</h3>
-                <p>time</p>
+                <h3>{article.author.firstName} {article.author.lastName}</h3>
+                <p>{dateStr} {timeStr}</p>
               </div>
             </div>
-            <img src={menu} alt="not found" className='menu' onClick={()=>{handelShoweMenuOption(article.id)}}/>
-            {showeMenuOption === article.id&&
+            <img src={menu} alt="not found" className='menu' onClick={()=>{handelShoweMenuOption(article._id)}}/>
+            {showeMenuOption === article._id&&
              <div className="options">
                <div className="edit" onClick={() => handleEditArticle(article)}>
                  <img src={edit} alt="not found" />
                  <span>edit</span>
                </div>
-               <div className="delete"  onClick={() => handleDeleteArticle(article.id)}>
+               <div className="delete"  onClick={() => handleDeleteArticle(article._id)}>
                  <img src={Delete} alt="not found" />
                  <span>delete</span>
                </div>
              </div>
             }
           </div>
-          <p className="description">{article.description}</p>
+          <p className="description">{article.content}</p>
           {article.isImage && <img src={URL.createObjectURL(article.image)} alt="not found" className='Shared'/>}
           {article.isVideo && <ReactPlayer width="100%" height="200px" url={article.video} />}
           {article.isVideoUploaded&&
@@ -137,11 +173,12 @@ const Post = ({handleOverlay}) => {
           <div className="noOfReactsComments">
             <div className="noOfReacts">
               <img src={like} alt="not found" />
-              <p>{article.loveCount}</p>
+              <p>{article.reactsCount}</p>
             </div>
             <div className="noOfComments">
-              <p>{article.commentCount} comments</p>
+              <p>{article.commentsCount} comments</p>
             </div>
+            
           </div>
 
           <div className="post-footer">
@@ -149,7 +186,7 @@ const Post = ({handleOverlay}) => {
               {article.loveCount>0?<img src={likeActiveIcon} alt='not found'/> : <img src={likeIcon} alt="not found" />}
               <p>like</p>
             </div>
-            <div className="item"  onClick={() => handleshowComments(article.id)}>
+            <div className="item"  onClick={() => handleshowComments(article._id)}>
               <img src={comment} alt="not found" />
               <p>comment</p>
             </div>
@@ -164,11 +201,11 @@ const Post = ({handleOverlay}) => {
           </div>
         </div>
 
-        {showCommentsMap[article.id]&&
+        {showCommentsMap[article._id]&&
         
          <div className="container-comments">
            <div className="header-comment">
-            <img src={exitWhite} alt="not found"  onClick={() =>{ handleshowComments(article.id, false); handleOverlay(false);}}/>
+            <img src={exitWhite} alt="not found"  onClick={() =>{ handleshowComments(article._id, false); handleOverlay(false);}}/>
            </div>
            <div className="post-comment">
              <img src={avatar} alt="not found" className='avatar'/>
@@ -180,7 +217,7 @@ const Post = ({handleOverlay}) => {
               </div>
              </div>
           </div>
-           {article.commentCount>0?
+           {article.commentsCount>0?
              (article.comments.slice().reverse().map((comment,index) => (
               (comment.commentDescription?
                 <div key={comment.id} className="comment" >

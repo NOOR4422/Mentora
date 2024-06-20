@@ -24,12 +24,14 @@ import RequestMentor from "./Components/RequestMentor/RequestMentor";
 import Bookmarks from "./Components/Book marks/BookMarks";
 import ApplyAsMentorForm from "./Components/Apply_As_Mentor/ApplyAsMentorForm";
 import AddTrackForm from "./Components/Apply_As_Mentor/AddTrackForm";
+// import RequestMentorPage from "./Components/RequestMentor/Component/RequestMentorPage";
 
 function App() {
   return (
     <Router>
       <Routes>
         <Route path="/" element={<LoadingPage />} />
+        {/* <Route path="/" element={<RequestMentorPage />} /> */}
         <Route path="/welcomePage" element={<WelcomePage />} />
         <Route path="/register" element={<Register />} />
         <Route element={<PreventRegContinue />}>
