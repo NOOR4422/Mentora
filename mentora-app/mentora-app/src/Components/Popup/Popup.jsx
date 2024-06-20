@@ -1,8 +1,9 @@
-import {React,useState,useEffect} from 'react'
+import {React,useState,useEffect,useContext} from 'react'
 import { v4 as uuidv4 } from 'uuid';
 import { useDispatch } from 'react-redux'; 
 import {  postArticleToAPI, setArticles } from '../../redux/Articles/articlesActions';
 import "./Popup.css"
+import axios from "axios"; 
 import ReactPlayer from 'react-player';
 import exit from "../../assets/exit.png";
 import defaultimage from "../../assets/Default_avatar.png"
@@ -11,8 +12,11 @@ import urlIcon from "../../assets/urlIcon.png";
 import photoIcon from "../../assets/photoIcon.png";
 import videoIcon from "../../assets/video.png";
 import { useSelector } from "react-redux";
+import { User } from "../Context/userContext";
+
 const Popup = ({type,ShowPopup,handleShowPopup,handlePopupType,editArticleData}) => {
   const dispatch = useDispatch();
+  const { auth } = useContext(User);
   const userData = useSelector(state => state.register.userData);
   const articles = useSelector(state => state.articles.articles);
   const reversedArticles = [...articles].reverse();
@@ -54,28 +58,57 @@ useEffect(() => {
     setUrl('')
   }
 
-  const handlePostArticles=(e)=>{
+  const handlePostArticles = async (e) => {
     e.preventDefault();
-    if(e.target !== e.currentTarget){
+    if (e.target !== e.currentTarget) {
         return;
     }
-    const payload={
-        id: uuidv4(),
-        image:photo,
-        video: url,
-        videoUploaded:videoUploaded,
-        username:firstName+lastName,
-        description:textarea,
-        isImage:photo?true:false,
-        isVideo:url?true:false,
-        isVideoUploaded:videoUploaded?true:false,
-    }
-    // const post = textarea;
+
+    const payload = {
+        // id: uuidv4(),
+        // image: photo,
+        // video: url,
+        // videoUploaded: videoUploaded,
+        // username: firstName + lastName,
+        // description: textarea,
+        // isImage: photo ? true : false,
+        // isVideo: url ? true : false,
+        // isVideoUploaded: videoUploaded ? true : false,
+
+        files : [photo, url],
+        content : textarea,
+
+    };
+
     const newArticles = [...reversedArticles, payload];
-    dispatch(setArticles(newArticles));
-    dispatch(postArticleToAPI(newArticles));
+    // dispatch(setArticles(newArticles));
+    const data = JSON.stringify(payload);
+    try {
+        const response = await axios.post(
+          'https://mentora-5s1z.onrender.com/api/post/addpost', 
+          data,
+          {
+            headers: {
+                 Authorization: `Bearer ${auth.Token}`,
+                'Content-Type': 'application/json',
+            },
+          }
+        );
+
+        // if (!response.ok) {
+        //     throw new Error('Network response was not ok');
+        // }
+
+        // const data = await response.json();
+        console.log('Success : ', response.data);
+    } catch (error) {
+        console.log('Error post : ', error);
+    }
+
+    // dispatch(postArticleToAPI(newArticles));
     rest(e);
-  }
+};
+
 
   const [selectedOption, setSelectedOption] = useState('');
   const handleOptionChange = (event) => {

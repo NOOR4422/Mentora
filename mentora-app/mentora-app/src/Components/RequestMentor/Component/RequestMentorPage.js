@@ -1,10 +1,13 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect,useContext  } from "react";
+import axios from "axios"; 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes, faChevronDown } from "@fortawesome/free-solid-svg-icons";
 import "./RequestMentorPage.css";
+import { User } from "../../Context/userContext";
 
 const RequestMentorPage = () => {
-  const [selectedTracks, setSelectedTracks] = useState([]);
+  const { auth } = useContext(User);
+  const [selectedTracks, setSelectedTracks] = useState("");
   const [isTrackDropdownVisible, setIsTrackDropdownVisible] = useState(false);
   const [isLanguageDropdownVisible, setIsLanguageDropdownVisible] =
     useState(false);
@@ -84,7 +87,7 @@ const RequestMentorPage = () => {
   };
 
   const handleOptionSelect = (option) => {
-    setSelectedTracks([...selectedTracks, option]);
+    setSelectedTracks(option);
     setIsTrackDropdownVisible(false);
     setSelectedOption("");
   };
@@ -96,16 +99,16 @@ const RequestMentorPage = () => {
   };
 
   const renderSelectedTracks = () => {
-    return selectedTracks.map((option, index) => (
-      <div className="selected-track" key={index}>
-        {option}
-        <FontAwesomeIcon
-          icon={faTimes}
-          className="cancel-icon"
-          onClick={() => handleOptionRemove(option)}
-        />
-      </div>
-    ));
+    // return selectedTracks.map((option, index) => (
+    //   <div className="selected-track" key={index}>
+    //     {option}
+    //     <FontAwesomeIcon
+    //       icon={faTimes}
+    //       className="cancel-icon"
+    //       onClick={() => handleOptionRemove(option)}
+    //     />
+    //   </div>
+    // ));
   };
 
   const handleLanguageSelect = (language) => {
@@ -173,44 +176,39 @@ const RequestMentorPage = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Validate fields before submission
     let isValid = true;
-
-    // Check if track is selected
+  
+    // Validation checks (as you have already implemented)
     if (selectedTracks.length === 0) {
       setTrackError("Track is required");
       isValid = false;
     } else {
       setTrackError("");
     }
-
-    // Check if language is selected
+  
     if (!selectedLanguage) {
       setLanguageError("Preferred language is required");
       isValid = false;
     } else {
       setLanguageError("");
     }
-
-    // Check if gender is selected
+  
     if (!selectedGender) {
       setGenderError("Preferred gender is required");
       isValid = false;
     } else {
       setGenderError("");
     }
-
-    // Check if mentorship type is selected
+  
     if (!mentorshipType) {
       setSessionTypeError("Mentorship type is required");
       isValid = false;
     } else {
       setSessionTypeError("");
     }
-
-    // Check if one-time session details are filled
+  
     if (
       mentorshipType === "one-time" ||
       (mentorshipType === "long-term" && isOneTimeSession)
@@ -242,8 +240,7 @@ const RequestMentorPage = () => {
         setMentorshipReasonError("");
       }
     }
-
-    // Check if salary range is filled
+  
     if (mentorshipType === "one-time" || isOneTimeSession) {
       if (!minSalary) {
         setMinSalaryError("Min salary is required");
@@ -258,9 +255,40 @@ const RequestMentorPage = () => {
         setMaxSalaryError("");
       }
     }
-
+  
     if (isValid) {
-      // Proceed with form submission
+      // console.log("Valiidd ",auth );
+      // console.log("******************************** ");
+      // console.log("Valiidd ",auth.Token );
+      const formData = {
+        track:"Backend",
+        languagePreference:selectedLanguage,
+        genderPreference:selectedGender,
+        type:mentorshipType,
+        description:"help in my project",
+        Reason:"debug",
+        minSalary,
+        maxSalary,
+      };
+
+      const JsonData = JSON.stringify(formData);
+      console.log(JsonData);
+  
+      try {
+        const response = await axios.post(
+          "https://mentora-5s1z.onrender.com/api/request/mentor-request",
+          JsonData,
+          {
+            headers: {
+              Authorization: `Bearer ${auth.Token}`,
+              "Content-Type" :"application/json"
+            }
+          }
+        );
+        console.log("Mentor request submitted successfully", response.data);
+      } catch (error) {
+        console.log("Error submitting mentor request", error);
+      }
     }
   };
 
