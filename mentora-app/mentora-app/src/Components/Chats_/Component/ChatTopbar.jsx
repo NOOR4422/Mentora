@@ -14,8 +14,8 @@ import "./ChatTopbar.css";
 import io from "socket.io-client";
 import Cookies from "universal-cookie";
 
-const ChatTopbar = ({
-  personName = "Nour Shazly",
+const ChatTopbar = ({ selectedChat,
+  userName,
   personPic = "https://images.unsplash.com/photo-1529665253569-6d01c0eaf7b6?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8cHJvZmlsZXxlbnwwfHwwfHx8MA%3D%3D",
 }) => {
   const [isOptionsMenuOpen, setIsOptionsMenuOpen] = useState(false);
@@ -34,8 +34,9 @@ const ChatTopbar = ({
   const [expandedImage, setExpandedImage] = useState(null);
   const cookies = new Cookies();
   const token = cookies.get("Bearer");
-  const currentUserId = "666f3fd821dbcbbce379a81e"; // Assuming this is the current user's ID, replace with dynamic value if necessary
-  const selectedChatId = "666f402f21dbcbbce379a82c"; // Assuming this is the current chat ID, replace with dynamic value if necessary
+  const [senderId, setCurrentUserId] = useState(null);
+  const [receiverId, setReceiverId] = useState(null);
+  const selectedChatId = selectedChat; 
 
   useEffect(() => {
     const fetchMessagesData = async () => {
@@ -55,8 +56,19 @@ const ChatTopbar = ({
         }
 
         const result = await response.json();
+
+        const senderId = result.data.users[0]._id;
+        const receiverId = result.data.users[1]._id;
+
+         const firstName = result.data.users[1].firstName;
+         const lastName = result.data.users[1].lastName;
+
+         const userName = `${firstName} ${lastName}`;
+         console.log(userName);
         setMessages(result.data.messages);
         setSent(true);
+        setCurrentUserId(senderId);
+        setReceiverId(receiverId);
       } catch (error) {
         console.error("Error fetching chat data:", error);
       }
@@ -64,6 +76,10 @@ const ChatTopbar = ({
 
     fetchMessagesData();
   }, [token, selectedChatId]);
+
+
+  console.log(senderId)
+  console.log(receiverId)
 
   const handleOptionsClick = () => {
     setIsOptionsMenuOpen(!isOptionsMenuOpen);
@@ -118,11 +134,11 @@ const ChatTopbar = ({
   const handleSendClick = async () => {
     if (inputValue.trim() !== "" || filePreview) {
       const formData = new FormData();
-      formData.append("files", filePreview); // assuming filePreview is a base64 string
+      formData.append("files", filePreview); 
       formData.append("message", inputValue);
-      formData.append("senderID", currentUserId); // Set the sender ID
-      formData.append("chatID", selectedChatId); // Set the chat ID
-      formData.append("receiveId", "6654c90f5beffbb507f7be47"); // replace with dynamic value
+      formData.append("senderID", senderId); 
+      formData.append("chatID", selectedChatId); 
+      formData.append("receiveId", receiverId); 
 
       try {
         const response = await fetch("http://localhost:4000/api/chat/", {
@@ -137,7 +153,6 @@ const ChatTopbar = ({
           const result = await response.json();
           console.log("Message Sent:", result);
 
-          // Update the messages state with the new message
           setMessages((prevMessages) => [
             ...prevMessages,
             {
@@ -146,7 +161,7 @@ const ChatTopbar = ({
               files: filePreview
                 ? [{ filePath: filePreview, fileType: "image/jpeg" }]
                 : [],
-              senderID: currentUserId,
+              senderID: senderId,
               createdAt: new Date(),
               isRead: false,
             },
@@ -200,8 +215,6 @@ const ChatTopbar = ({
     setIsPopupMenuOpen(false);
   };
 
-
-
   const fetchChatData = async (selectedChatId) => {
     try {
       const response = await fetch(
@@ -226,53 +239,47 @@ const ChatTopbar = ({
     }
   };
 
+  const handleEditClick = () => {
+    const selectedMessage = messages.find(
+      (message) => message._id === selectedMessageId
+    );
+    if (selectedMessage) {
+      setInputValue(selectedMessage.message);
+      setFilePreview(selectedMessage.files[0]?.filePath || null);
+      setIsPopupMenuOpen(false);
+    }
+  };
 
+  const handleDeleteClick = async () => {
+    if (!selectedMessageId) return;
 
+    try {
+      const response = await fetch(
+        `http://localhost:4000/api/chat/deleteMessage/${selectedMessageId}`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
-
-
-
- const handleEditClick = () => {
-   const selectedMessage = messages.find(
-     (message) => message._id === selectedMessageId
-   );
-   if (selectedMessage) {
-     setInputValue(selectedMessage.message);
-     setFilePreview(selectedMessage.files[0]?.filePath || null);
-     setIsPopupMenuOpen(false);
-   }
- };
-
- const handleDeleteClick = async () => {
-   if (!selectedMessageId) return;
-
-   try {
-     const response = await fetch(
-       `http://localhost:4000/api/chat/deleteMessage/${selectedMessageId}`,
-       {
-         method: "DELETE",
-         headers: {
-           Authorization: `Bearer ${token}`,
-           "Content-Type": "application/json",
-         },
-       }
-     );
-
-     if (response.ok) {
-       const updatedMessages = messages.filter(
-         (message) => message._id !== selectedMessageId
-       );
-       setMessages(updatedMessages);
-       setSelectedMessageId(null);
-       setIsPopupMenuOpen(false);
-       console.log("Message deleted successfully!");
-     } else {
-       throw new Error("Failed to delete message");
-     }
-   } catch (error) {
-     console.error("Error deleting message:", error);
-   }
- };
+      if (response.ok) {
+        const updatedMessages = messages.filter(
+          (message) => message._id !== selectedMessageId
+        );
+        setMessages(updatedMessages);
+        setSelectedMessageId(null);
+        setIsPopupMenuOpen(false);
+        console.log("Message deleted successfully!");
+      } else {
+        throw new Error("Failed to delete message");
+      }
+    } catch (error) {
+      console.error("Error deleting message:", error);
+    }
+  };
 
   const handleSendEdit = async () => {
     if (!selectedMessageId) return;
@@ -312,18 +319,12 @@ const ChatTopbar = ({
     }
   };
 
-
-
-
-
-
-
   return (
     <div className="right-section">
       <div className="top-bar">
         <img src={personPic} alt="Person Pic" className="person-pic" />
         <div className="person-details">
-          <h3 className="personName">{personName}</h3>
+          <h3 className="personName">{userName}</h3>
         </div>
         <div className="options-chat">
           <FontAwesomeIcon icon={faEllipsisV} onClick={handleOptionsClick} />
@@ -346,7 +347,7 @@ const ChatTopbar = ({
               <div
                 key={index}
                 className={`message ${
-                  message.senderID === "666f3fd821dbcbbce379a81e"
+                  message.senderID === senderId
                     ? "sent"
                     : "received"
                 }`}
@@ -354,9 +355,7 @@ const ChatTopbar = ({
                   handlePopupMenuOpen(message._id, event)
                 }
               >
-                <div className="message-info">
-                 
-                </div>
+                <div className="message-info"></div>
                 <div className="message-content">
                   {isPopupMenuOpen && selectedMessageId === message._id && (
                     <div className="popup-menu" ref={popupMenuRef}>
