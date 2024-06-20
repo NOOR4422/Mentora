@@ -9,10 +9,11 @@ const ChatPage = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedChat, setSelectedChat] = useState(null);
   const [chatsData, setChatsData] = useState([]);
+  const [chatDetails, setChatDetails] = useState(null);
+  const [userName, setUserName] = useState([]);
 
   const cookies = new Cookies();
   const token = cookies.get("Bearer");
-  console.log("Token:", token);
 
   useEffect(() => {
     const fetchChatsData = async () => {
@@ -32,11 +33,9 @@ const ChatPage = () => {
         }
 
         const result = await response.json();
-        console.log("Fetched data:", result);
 
         if (Array.isArray(result.data)) {
           setChatsData(result.data);
-          console.log("Data fetched successfully", result.data);
         } else {
           console.error("Fetched data is not an array:", result.data);
         }
@@ -48,10 +47,61 @@ const ChatPage = () => {
     fetchChatsData();
   }, [token]);
 
-  const handleChatClick = (chatId) => {
-    setSelectedChat(chatId === selectedChat ? null : chatId);
-  };
 
+
+
+ 
+    const fetchChatData = async (chatId) => {
+      try {
+        const response2 = await fetch(
+                  `http://localhost:4000/api/chat/findChat/${chatId}`
+,
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        if (!response2.ok) {
+          throw new Error("Network response was not ok " + response2.statusText);
+        }
+        else {
+          console.log('sucessssss')
+          const result2 = await response2.json();
+console.log(result2.data)
+  const firstName = result2.data.users[1].firstName;
+  const lastName = result2.data.users[1].lastName;
+
+  const userName = `${firstName} ${lastName}`;
+  console.log(userName);
+setUserName(userName)
+          const selectedChat = result2.data._id
+          setSelectedChat(selectedChat)
+} 
+      } catch (error) {
+        console.error("Error fetching chat content:", error);
+      }
+    };
+
+  
+
+
+  const handleChatClick = async (chatId) => {
+    setSelectedChat(chatId === selectedChat ? null : chatId);
+    if (chatId !== selectedChat) {
+      await fetchChatData(chatId);
+    } else {
+      setChatDetails(null);
+    }
+  };
+          console.log('idddddddddd', selectedChat)
+
+
+
+
+  
   const filteredChats = chatsData.filter((chat) => {
     return (
       (chat.last_message?.message
@@ -135,7 +185,7 @@ const ChatPage = () => {
         </div>
         <div className="chat-page-container">
           <div className="chat-page">
-            <ChatTopbar selectedChat={selectedChat} />
+            <ChatTopbar selectedChat={selectedChat} chatDetails={chatDetails} userName={userName} />
           </div>
         </div>
       </div>
