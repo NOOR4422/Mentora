@@ -230,6 +230,79 @@ const Post = ({ handleOverlay }) => {
       console.error('Error React the Reply:', error);
     }
   }
+  const handleReactComment=async (commintID)=>{
+    try {
+      console.log(auth.Token);
+      const response = await axios.post(`http://localhost:4000/api/post/${postID}/${commintID}/reactComment`, {
+        headers: {
+          Authorization: `Bearer ${auth.Token}`,
+          "Content-Type": "application/json"
+        }
+      });
+      if (response.status === 200) {
+        console.log(' react Comment successfully');
+        handleOverlay(false);
+        setShowCommentsMap(true)
+      }
+    } catch (error) {
+      console.error('Error react the Comment:', error);
+    }
+  }
+  const handleReactPost=async (idPost)=>{
+    try {
+      console.log(auth.Token);
+      const response = await axios.post(`http://localhost:4000/api/post/${idPost}/reactPost`, {
+        headers: {
+          Authorization: `Bearer ${auth.Token}`,
+          "Content-Type": "application/json"
+        }
+      });
+      if (response.status === 200) {
+        console.log(' react Post successfully');
+        handleOverlay(false);
+        setShowCommentsMap(true)
+      }
+    } catch (error) {
+      console.error('Error react The Post :', error);
+    }
+  }
+  const handleSharePost=async (idPost)=>{
+    try {
+      console.log(auth.Token);
+      const response = await axios.post(`http://localhost:4000/api/post/${idPost}/sharePost`, {
+        headers: {
+          Authorization: `Bearer ${auth.Token}`,
+          "Content-Type": "application/json"
+        }
+      });
+      if (response.status === 200) {
+        console.log(' Share Post successfully');
+        handleOverlay(false);
+        setShowCommentsMap(true)
+      }
+      console.log(response);
+    } catch (error) {
+      console.error('Error Share The Post :', error);
+    }
+  }
+  const handleSavePost=async (idPost)=>{
+    try {
+      console.log(auth.Token);
+      const response = await axios.post(`http://localhost:4000/api/post/${idPost}/savePosts`, {
+        headers: {
+          Authorization: `Bearer ${auth.Token}`,
+          "Content-Type": "application/json"
+        }
+      });
+      if (response.status === 200) {
+        console.log(' Save Post successfully');
+        handleOverlay(false);
+        setShowCommentsMap(true)
+      }
+    } catch (error) {
+      console.log( error);
+    }
+  }
   const [showReply, setShowReply] = useState(false);
   const handleShowReply = (commentId) => {
     setShowReply(true);
@@ -304,7 +377,7 @@ const Post = ({ handleOverlay }) => {
             </div>
           </div>
           <div className="post-footer">
-            <div className="item" onClick={() => handleLoveClick(article)}>
+            <div className="item" onClick={() => handleReactPost(article._id)}>
               {article.loveCount > 0 ? <img src={likeActiveIcon} alt='not found' /> : <img src={likeIcon} alt="not found" />}
               <p>like</p>
             </div>
@@ -313,10 +386,10 @@ const Post = ({ handleOverlay }) => {
               <p>comment</p>
             </div>
             <div className="item">
-              <img src={save} alt="not found" />
+              <img src={save} alt="not found" onClick={() => handleSavePost(article._id)}/>
               <p>save</p>
             </div>
-            <div className="item">
+            <div className="item" onClick={() => handleSharePost(article._id)}>
               <img src={send} alt="not found" />
               <p>send</p>
             </div>
@@ -371,7 +444,7 @@ const Post = ({ handleOverlay }) => {
                         <p className="comment-description">{comment.content}</p>
                         <div className="Actions" style={{margin:"0rem 0rem -0.2rem" }}>
                           <div className="likeComment">
-                            <img src={likeComment} alt="not found" />
+                            <img src={likeComment} alt="not found" onClick={() => handleReactComment(comment._id)}/>
                             <p>{comment.reactsCount} likes</p>
                           </div>
                           <div className="replyComment" onClick={() => handleShowReply(comment._id)}>
