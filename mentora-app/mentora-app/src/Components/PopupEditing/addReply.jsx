@@ -1,57 +1,46 @@
 import React, { useState, useEffect, useContext } from 'react';
 import '../Popup/Popup.css';
-import exit from '../../assets/exit.png';
+import exitIcon from '../../assets/exit.png'; // Renamed for clarity
 import axios from 'axios';
 import { User } from "../Context/userContext";
-// PopupCommint component to handle editing comments
+
 const AddReply = ({
-    type,
     ShowPopup,
     showEditCommint,
     editCommintData,
-    handleShowPopup,
-    editArticleData,
-    handlePopupType,
-    handleOverlay,
     idPost
 }) => {
     const { auth } = useContext(User);
-    // Initialize state for textarea and selected option
     const [textarea, setTextarea] = useState('');
     const [selectedOption, setSelectedOption] = useState('');
 
-
-    // Reset function to clear textarea
     const reset = () => {
         setTextarea('');
         showEditCommint(false); // Close the popup on reset
     };
-    console.log(editCommintData);
 
-    // Handle the edit action
-    const handleadd = async (e) => {
+    const handleAdd = async (e) => {
         e.preventDefault();
 
         try {
             const response = await axios.post(`http://localhost:4000/api/post/${idPost}/${editCommintData}/replyComment`, {
                 content: textarea
-            }
-                , {
-                    headers: {
-                        Authorization: `Bearer ${auth.Token}`,
-                        "Content-Type": "application/json"
-                    }
-                });
+            }, {
+                headers: {
+                    Authorization: `Bearer ${auth.Token}`,
+                    "Content-Type": "application/json"
+                }
+            });
+
             if (response.status === 200) {
-                console.log('Comment add Reply successfully');
-                // Optionally, update your state here
+                console.log('Comment added Reply successfully');
+                reset(); // Reset and close the popup after successful reply addition
             }
         } catch (error) {
-            console.error('Error add Reply the comment:', error);
+            console.error('Error adding Reply to the comment:', error);
         }
     };
 
-    // Handle option change
     const handleOptionChange = (event) => {
         setSelectedOption(event.target.value);
     };
@@ -60,23 +49,21 @@ const AddReply = ({
         ShowPopup && (
             <div className='popup-container'>
                 <div className="popup-header">
-                    <span>add Reply</span>
-                    <img src={exit} alt="Close" onClick={reset} />
-                </div>
-                <div className="popup-user-info">
-                    <span>{editCommintData.authorName}</span>
+                    <span>Add Reply</span>
+                    <img src={exitIcon} alt="Close" onClick={reset} className="exit-icon" />
                 </div>
                 <textarea
                     placeholder='What do you want to talk about?'
                     className='textarea'
                     autoFocus
+                    value={textarea}
                     onChange={(e) => setTextarea(e.target.value)}
                 />
                 <div className="popup-footer popup-footer-1">
                     <button
                         disabled={!textarea}
                         className={textarea.length !== 0 ? "" : "disabled"}
-                        onClick={handleadd}
+                        onClick={handleAdd}
                     >
                         Add Reply
                     </button>

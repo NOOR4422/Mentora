@@ -25,6 +25,7 @@ import axios from 'axios';
 import { User } from "../Context/userContext";
 import PopupCommint from '../PopupEditing/PopupCommint';
 import AddReply from '../PopupEditing/addReply';
+import PopupReply from '../PopupEditing/PopupReply';
 const Post = ({ handleOverlay }) => {
   const { auth } = useContext(User);
   const [showeMenuOption, setShowMeneOption] = useState(false);
@@ -74,8 +75,17 @@ const Post = ({ handleOverlay }) => {
           "Content-Type": "application/json"
         }
       });
-      console.log(response.data.comments);
-      setComments(response.data.comments)
+      const updatedComments = response.data.comments.map(comment => {
+        const updatedReplies = comment.replies.map(reply => ({
+          ...reply,
+          commintID: comment._id
+        }));
+        return { ...comment, replies: updatedReplies };
+      });
+  
+      setComments(updatedComments);
+      console.log(updatedComments);
+
     } catch (error) {
       console.log(error.message);
 
@@ -118,8 +128,10 @@ const Post = ({ handleOverlay }) => {
 
   const [showEditPopup, setShowEditPopup] = useState(false);
   const [showEditCommint, setShowEditCommint] = useState(false);
+  const [showEditReply, setShowEditReply] = useState(false);
   const [selectedArticle, setSelectedArticle] = useState(null);
   const [selectedcommint, setSelectedCommint] = useState(null);
+  const [selectedreply, setSelectedReply] = useState(null);
   const handleEditArticle = (article) => {
     setSelectedArticle(article);
     handleOverlay(true)
@@ -131,6 +143,11 @@ const Post = ({ handleOverlay }) => {
     setShowEditCommint(true);
     setShowMeneOption();
   };
+  // const handleEditReply = (reply) => {
+  //   setSelectedReply(reply);
+  //   setShowEditReply(true);
+  //   setShowMeneOption();
+  // };
   useEffect(() => {
     if (articles.date) {
       let dateValue = '2024-06-20T12:02:17.619Z';
@@ -178,98 +195,134 @@ const Post = ({ handleOverlay }) => {
       console.error('Error deleting the comment:', error);
     }
   };
+  const handleDeleteReply=async (reply,commintID)=>{
+    try {
+      const response = await axios.delete(`http://localhost:4000/api/post/${postID}/${commintID}/${reply}/deleteReply`, {
+        headers: {
+          Authorization: `Bearer ${auth.Token}`,
+          "Content-Type": "application/json"
+        }
+      });
+      if (response.status === 200) {
+        console.log('Reply deleted successfully');
+        handleOverlay(false);
+        setShowCommentsMap(true)
+      }
+    } catch (error) {
+      console.error('Error deleting the Reply:', error);
+    }
+  }
+  const handleReactReply=async (reply,commintID)=>{
+    try {
+      console.log(auth.Token);
+      const response = await axios.post(`http://localhost:4000/api/post/${postID}/${commintID}/${reply}/reactReply`, {
+        headers: {
+          Authorization: `Bearer ${auth.Token}`,
+          "Content-Type": "application/json"
+        }
+      });
+      if (response.status === 200) {
+        console.log(' React Reply successfully');
+        handleOverlay(false);
+        setShowCommentsMap(true)
+      }
+    } catch (error) {
+      console.error('Error React the Reply:', error);
+    }
+  }
   const [showReply, setShowReply] = useState(false);
   const handleShowReply = (commentId) => {
     setShowReply(true);
     setSelectedCommint(commentId)
   }
-  function formatDate(dateString) {
-    const options = {
-      year: 'numeric',
-      month: 'short',
-      day: '2-digit',
-      hour: '2-digit',
-      minute: '2-digit',
-      hour12: false,
-      timeZone: 'UTC'
-    };
-    return new Date(dateString).toLocaleDateString('en-US', options);
-  }
 
-  const formattedComments = comments.map(comment => ({
-    ...comment,
-    date: formatDate(comment.date)
-  }));
+
+  // Function to convert date to ISO 8601 format
+  const convertToISO = (dateStr) => {
+    try {
+      return new Date(dateStr).toISOString();
+    } catch (error) {
+      return 'Invalid Date';
+    }
+  };
+  const formattedComments = comments.map((item) => {
+    const newItem = { ...item, date: convertToISO(item.date) };
+    newItem.replies = newItem.replies.map((reply) => ({
+      ...reply,
+      date: reply.date, // Assuming reply dates are already in ISO format
+    }));
+    return newItem;
+  });
   console.log(formattedComments);
   console.log(comments);
-  
+  const [showViewReplies, setShowViewReplies] = useState(false)
   return (
     <>
       {reversedArticles.map((article, index) => (
-        <>
-          <div className='post' key={index}>
-            <div className="post-header">
-              <div className="user-info">
-                <img src={avatar} alt="not found" />
-                <div className="user-details">
-                  <h3>{article.author.firstName} {article.author.lastName}</h3>
-                  <p>{dateStr} {timeStr}</p>
+        <div className='post' key={index}>
+          <div className="post-header">
+            <div className="user-info">
+              <img src={avatar} alt="not found" />
+              <div className="user-details">
+                <h3>{article.author.firstName} {article.author.lastName}</h3>
+                <p>{dateStr} {timeStr}</p>
+              </div>
+            </div>
+            <img
+              src={menu}
+              alt="not found"
+              className='menu'
+              onClick={() => { handelShoweMenuOption(article._id) }}
+            />
+            {showeMenuOption === article._id &&
+              <div className="options">
+                <div className="edit" onClick={() => handleEditArticle(article)}>
+                  <img src={edit} alt="not found" />
+                  <span>edit</span>
+                </div>
+                <div className="delete" onClick={() => handleDeleteArticle(article._id)}>
+                  <img src={Delete} alt="not found" />
+                  <span>delete</span>
                 </div>
               </div>
-              <img src={menu} alt="not found" className='menu' onClick={() => { handelShoweMenuOption(article._id) }} />
-              {showeMenuOption === article._id &&
-                <div className="options">
-                  <div className="edit" onClick={() => handleEditArticle(article)}>
-                    <img src={edit} alt="not found" />
-                    <span>edit</span>
-                  </div>
-                  <div className="delete" onClick={() => handleDeleteArticle(article._id)}>
-                    <img src={Delete} alt="not found" />
-                    <span>delete</span>
-                  </div>
-                </div>
-              }
+            }
+          </div>
+          <p className="description">{article.content}</p>
+          {article.isImage && <img src={URL.createObjectURL(article.image)} alt="not found" className='Shared' />}
+          {article.isVideo && <ReactPlayer width="100%" height="200px" url={article.video} />}
+          {article.isVideoUploaded &&
+            <video controls style={{ width: '100%', height: '200px' }}>
+              <source src={URL.createObjectURL(article.videoUploaded)} type={article.videoUploaded.type} />
+            </video>}
+          <div className="noOfReactsComments">
+            <div className="noOfReacts">
+              <img src={like} alt="not found" />
+              <p>{article.reactsCount}</p>
             </div>
-            <p className="description">{article.content}</p>
-            {article.isImage && <img src={URL.createObjectURL(article.image)} alt="not found" className='Shared' />}
-            {article.isVideo && <ReactPlayer width="100%" height="200px" url={article.video} />}
-            {article.isVideoUploaded &&
-              <video controls style={{ width: '100%', height: '200px' }}>
-                <source src={URL.createObjectURL(article.videoUploaded)} type={article.videoUploaded.type} />
-              </video>}
-            <div className="noOfReactsComments">
-              <div className="noOfReacts">
-                <img src={like} alt="not found" />
-                <p>{article.reactsCount}</p>
-              </div>
-              <div className="noOfComments">
-                <p>{article.commentsCount} comments</p>
-              </div>
-
+            <div className="noOfComments">
+              <p>{article.commentsCount} comments</p>
             </div>
-
-            <div className="post-footer">
-              <div className="item" onClick={() => handleLoveClick(article)}>
-                {article.loveCount > 0 ? <img src={likeActiveIcon} alt='not found' /> : <img src={likeIcon} alt="not found" />}
-                <p>like</p>
-              </div>
-              <div className="item" onClick={() => handleshowComments(article._id)}>
-                <img src={comment} alt="not found" />
-                <p>comment</p>
-              </div>
-              <div className="item">
-                <img src={save} alt="not found" />
-                <p>save</p>
-              </div>
-              <div className="item">
-                <img src={send} alt="not found" />
-                <p>send</p>
-              </div>
+          </div>
+          <div className="post-footer">
+            <div className="item" onClick={() => handleLoveClick(article)}>
+              {article.loveCount > 0 ? <img src={likeActiveIcon} alt='not found' /> : <img src={likeIcon} alt="not found" />}
+              <p>like</p>
+            </div>
+            <div className="item" onClick={() => handleshowComments(article._id)}>
+              <img src={comment} alt="not found" />
+              <p>comment</p>
+            </div>
+            <div className="item">
+              <img src={save} alt="not found" />
+              <p>save</p>
+            </div>
+            <div className="item">
+              <img src={send} alt="not found" />
+              <p>send</p>
             </div>
           </div>
 
           {showCommentsMap[article._id] &&
-
             <div className="container-comments">
               <div className="header-comment">
                 <img src={exitWhite} alt="not found" onClick={() => { handleshowComments(article._id, false); handleOverlay(false); }} />
@@ -277,67 +330,122 @@ const Post = ({ handleOverlay }) => {
               <div className="post-comment">
                 <img src={avatar} alt="not found" className='avatar' />
                 <div className="input-comment">
-                  <input type="text" autoFocus placeholder='leave a comment' value={description} onChange={(e) => setdescription(e.target.value)} />
+                  <input
+                    type="text"
+                    autoFocus
+                    placeholder='leave a comment'
+                    value={description}
+                    onChange={(e) => setdescription(e.target.value)}
+                  />
                   <div className="button" onClick={() => handelPostComment(article)}>
-                    <button >add</button>
+                    <button>add</button>
                     <img src={add} alt='not found' />
                   </div>
                 </div>
               </div>
               {formattedComments.length > 0 ?
-                (formattedComments.map((comment, index) => (
-                  <div key={index} className="comment" >
-                    <img src={avatar} alt="not found" className='avatar' />
-                    <div className="comment-details">
-                      <div className="all-above">
-                        <div className="above">
-                          <p className="comment-user">{comment.authorName}</p>
-                          <span>{comment.date}</span>
-                        </div>
-                        <img src={menu} alt="not found" className='menu' onClick={() => { handelShoweMenuOption(comment.id) }} />
-                        {showeMenuOption === comment.id &&
-                          <div className="options options-2">
-                            <div className="edit" onClick={() => handleEditCommint(comment)}>
-                              <img src={edit} alt="not found" />
-                              <span style={{ color: "#fff", padding: "0rem 1rem" }}>edit</span>
-                            </div>
-                            <div className="delete" style={{ color: "#fff" }} onClick={() => handleDeleteComment(comment.id)}>
-                              <img src={Delete} alt="not found" />
-                              <span style={{ color: "#fff", padding: "0rem 1rem" }}>delete</span>
-                            </div>
+                formattedComments.map((comment, index) => (
+                  <>
+                    <div key={index} className="comment">
+                      <img src={avatar} alt="not found" className='avatar' />
+                      <div className="comment-details">
+                        <div className="all-above">
+                          <div className="above">
+                            <p className="comment-user">{comment.authorName}</p>
+                            <span>{comment.date}</span>
                           </div>
-                        }
-                      </div>
-                      <p className="comment-description">{comment.content}</p>
-                      <div className="Actions">
-                        <div className="likeComment">
-                          <img src={likeComment} alt="not found" />
-                          <p>{comment.reactsCount} likes</p>
+                          <img src={menu} alt="not found" className='menu' onClick={() => { handelShoweMenuOption(comment._id) }} />
+                          {showeMenuOption === comment._id &&
+                            <div className="options options-2">
+                              <div className="edit" onClick={() => handleEditCommint(comment)}>
+                                <img src={edit} alt="not found" />
+                                <span style={{ color: "#fff", padding: "0rem 1rem" }}>edit</span>
+                              </div>
+                              <div className="delete" style={{ color: "#fff" }} onClick={() => handleDeleteComment(comment._id)}>
+                                <img src={Delete} alt="not found" />
+                                <span style={{ color: "#fff", padding: "0rem 1rem" }}>delete</span>
+                              </div>
+                            </div>
+                          }
                         </div>
-                        <div className="replyComment" onClick={() => handleShowReply(comment.id)}>
-                          <img src={reply} alt="not found" />
-                          <p>{comment.repliesCount} reply</p>
+                        <p className="comment-description">{comment.content}</p>
+                        <div className="Actions" style={{margin:"0rem 0rem -0.2rem" }}>
+                          <div className="likeComment">
+                            <img src={likeComment} alt="not found" />
+                            <p>{comment.reactsCount} likes</p>
+                          </div>
+                          <div className="replyComment" onClick={() => handleShowReply(comment._id)}>
+                            <img src={reply} alt="not found" />
+                            <p>{comment.repliesCount} reply</p>
+                          </div>
+                          {comment.repliesCount > 0 ? (
+                            showViewReplies ? (
+                              <div className="replyComment" onClick={() => setShowViewReplies(false)}>
+                                <p>Hide replies</p>
+                              </div>
+                            ) : (
+                              <div className="replyComment" onClick={() => setShowViewReplies(true)}>
+                                <p>View replies</p>
+                              </div>
+                            )
+                          ) : (
+                            ""
+                          )}
+
                         </div>
                       </div>
                     </div>
-                  </div>
-                )))
+                    {comment.repliesCount > 0 && showViewReplies &&
+                      comment.replies.map((reply, index) => (
+                        <div key={index} className="comment" style={{marginLeft:"3rem",width:"90%"}}>
+                          <img src={avatar} alt="not found" className='avatar' />
+                          <div className="comment-details">
+                            <div className="all-above">
+                              <div className="above">
+                                <p className="comment-user">{reply.authorName}</p>
+                                <span>{reply.date}</span>
+                              </div>
+                              <img src={menu} alt="not found" className='menu' onClick={() => { handelShoweMenuOption(reply._id) }} />
+                              {showeMenuOption === reply._id &&
+                                <div className="options options-2">
+                                  {/* <div className="edit" onClick={() => handleEditReply(reply)}>
+                                    <img src={edit} alt="not found" />
+                                    <span style={{ color: "#fff", padding: "0rem 1rem" }}>edit</span>
+                                  </div> */}
+                                  <div className="delete" style={{ color: "#fff" }} onClick={() => handleDeleteReply(reply._id,reply.commintID)}>
+                                    <img src={Delete} alt="not found" />
+                                    <span style={{ color: "#fff", padding: "0rem 1rem" }}>delete</span>
+                                  </div>
+                                </div>
+                              }
+                            </div>
+                            <p className="comment-description">{reply.content}</p>
+                            <div className="Actions" style={{margin:"0rem 0rem -0.2rem" }}>
+                              <div className="likeComment"  onClick={() => handleReactReply(reply._id,reply.commintID)}>
+                                <img src={likeComment} alt="not found" />
+                                <p>{reply.reactsCount} likes</p>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      ))
+                    }
+                  </>
+                ))
                 :
                 <div className="noComments">
                   <img src={noCommentsYet} alt="not found" />
                 </div>
               }
             </div>
-
           }
-        </>
+        </div>
       ))}
       <PopupEdit
         type={PopupType}
         ShowPopup={showEditPopup}
         handleShowPopup={() => setShowEditPopup(false)}
         editArticleData={selectedArticle}
-        // editCommintData={selectedcommint}
         handlePopupType={handlePopupType}
         handleOverlay={handleOverlay}
       />
@@ -352,10 +460,18 @@ const Post = ({ handleOverlay }) => {
         ShowPopup={showReply}
         showEditCommint={() => setShowReply(false)}
         editCommintData={selectedcommint}
+        idPost={postID}
+        handlePopupType={handlePopupType}
+      />
+      {/* <PopupReply
+        ShowPopup={showEditReply}
+        showEditReply={() => setShowEditCommint(false)}
+        editCommintData={selectedreply}
         handlePopupType={handlePopupType}
         idPost={postID}
-      />
+      /> */}
     </>
+
   );
 }
 

@@ -176,8 +176,8 @@
 .post-comment-reply{
     display: flex;
 }
-.reply{
-    display: block;
+.reply,.replies{
+    display: flex;
 }
 .post-comment .avatar{
     width: 35px;

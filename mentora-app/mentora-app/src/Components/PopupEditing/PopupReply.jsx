@@ -4,15 +4,11 @@ import exit from '../../assets/exit.png';
 import axios from 'axios';
 import { User } from "../Context/userContext";
 // PopupCommint component to handle editing comments
-const PopupCommint = ({
-    type,
+const PopupReply = ({
     ShowPopup,
-    showEditCommint,
+    showEditReply,
     editCommintData,
     handleShowPopup,
-    editArticleData,
-    handlePopupType,
-    handleOverlay,
     idPost
 }) => {
     const { auth } = useContext(User);
@@ -30,9 +26,10 @@ const PopupCommint = ({
     // Reset function to clear textarea
     const reset = () => {
         setTextarea('');
-        showEditCommint(false); // Close the popup on reset
+        showEditReply(false); // Close the popup on reset
     };
     console.log(auth.Token);
+    console.log(editCommintData);
 
     // Handle the edit action
     const handleEdit = async (e) => {
@@ -66,7 +63,7 @@ const PopupCommint = ({
         ShowPopup && (
             <div className='popup-container'>
                 <div className="popup-header">
-                    <span>Edit a Comment</span>
+                    <span>Edit a Reply</span>
                     <img src={exit} alt="Close" onClick={reset} />
                 </div>
                 <div className="popup-user-info">
@@ -93,4 +90,4 @@ const PopupCommint = ({
     );
 };
 
-export default PopupCommint;
+export default PopupReply;
