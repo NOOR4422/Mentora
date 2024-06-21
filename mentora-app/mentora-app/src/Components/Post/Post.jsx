@@ -235,7 +235,7 @@ const Post = ({ handleOverlay }) => {
   const handleReactReply = async (reply, commintID) => {
     try {
       console.log(auth.Token);
-      const response = await axios.post(`http://localhost:4000/api/post/${postID}/${commintID}/${reply}/reactReply`, {
+      const response = await axios.post(`http://localhost:4000/api/post/${postID}/${commintID}/${reply}/reactReply`,{}, {
         headers: {
           Authorization: `Bearer ${auth.Token}`,
           "Content-Type": "application/json"
@@ -253,7 +253,8 @@ const Post = ({ handleOverlay }) => {
   const handleReactComment=async (commintID)=>{
     try {
       console.log(auth.Token);
-      const response = await axios.post(`http://localhost:4000/api/post/${postID}/${commintID}/reactComment`, {
+      const response = await axios.post(`http://localhost:4000/api/post/${postID}/${commintID}/reactComment`,
+        {}, {
         headers: {
           Authorization: `Bearer ${auth.Token}`,
         }
@@ -270,7 +271,7 @@ const Post = ({ handleOverlay }) => {
   const handleReactPost=async (idPost)=>{
     try {
       console.log(auth.Token);
-      const response = await axios.post(`http://localhost:4000/api/post/${idPost}/reactPost`, {
+      const response = await axios.post(`http://localhost:4000/api/post/${idPost}/reactPost`,{}, {
         headers: {
           Authorization: `Bearer ${auth.Token}`,
           "Content-Type": "application/json"
@@ -285,42 +286,51 @@ const Post = ({ handleOverlay }) => {
       console.error('Error react The Post :', error);
     }
   }
-  const handleSharePost=async (idPost)=>{
+  const handleSharePost = async (idPost) => {
     try {
       console.log(auth.Token);
-      const response = await axios.post(`http://localhost:4000/api/post/${idPost}/sharePost`, {
-        headers: {
-          Authorization: `Bearer ${auth.Token}`,
+      const response = await axios.post(
+        `http://localhost:4000/api/post/${idPost}/sharePost`,
+        {},  // Assuming no body data is needed, use an empty object
+        {
+          headers: {
+            Authorization: `Bearer ${auth.Token}`,
+          },
         }
-      });
+      );
       if (response.status === 200) {
-        console.log(' Share Post successfully');
+        console.log('Share Post successfully');
         handleOverlay(false);
-        setShowCommentsMap(true)
+        setShowCommentsMap(true);
       }
       console.log(response);
     } catch (error) {
       console.error('Error Share The Post :', error);
     }
-  }
-  const handleSavePost=async (idPost)=>{
+  };
+  
+  const handleSavePost = async (idPost) => {
     try {
       console.log(auth.Token);
-      const response = await axios.post(`http://localhost:4000/api/post/${idPost}/savePosts`, {
-        headers: {
-          Authorization: `Bearer ${auth.Token}`,
-          "Content-Type": "application/json"
+      const response = await axios.post(
+        `http://localhost:4000/api/post/${idPost}/savePosts`,
+        {},  // Assuming no body data is needed, use an empty object
+        {
+          headers: {
+            Authorization: `Bearer ${auth.Token}`,
+          },
         }
-      });
+      );
       if (response.status === 200) {
-        console.log(' Save Post successfully');
+        console.log('Save Post successfully');
         handleOverlay(false);
-        setShowCommentsMap(true)
+        setShowCommentsMap(true);
       }
     } catch (error) {
-      console.log( error);
+      console.log('Error saving the post:', error.response ? error.response.data : error.message);
     }
-  }
+  };
+  
   const [showReply, setShowReply] = useState(false);
   const handleShowReply = (commentId) => {
     setShowReply(true);
@@ -403,8 +413,8 @@ const Post = ({ handleOverlay }) => {
               <img src={comment} alt="not found" />
               <p>comment</p>
             </div>
-            <div className="item">
-              <img src={save} alt="not found" onClick={() => handleSavePost(article._id)}/>
+            <div className="item" onClick={() => handleSavePost(article._id)}>
+              <img src={save} alt="not found" />
               <p>save</p>
             </div>
             <div className="item" onClick={() => handleSharePost(article._id)}>
