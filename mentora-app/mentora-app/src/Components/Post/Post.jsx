@@ -145,10 +145,8 @@ const Post = ({ handleOverlay }) => {
 
   const [showEditPopup, setShowEditPopup] = useState(false);
   const [showEditCommint, setShowEditCommint] = useState(false);
-  const [showEditReply, setShowEditReply] = useState(false);
   const [selectedArticle, setSelectedArticle] = useState(null);
   const [selectedcommint, setSelectedCommint] = useState(null);
-  const [selectedreply, setSelectedReply] = useState(null);
   const handleEditArticle = (article) => {
     setSelectedArticle(article);
     handleOverlay(true)
@@ -163,6 +161,11 @@ const Post = ({ handleOverlay }) => {
   // const handleEditReply = (reply) => {
   //   setSelectedReply(reply);
   //   setShowEditReply(true);
+  //   setShowMeneOption();
+  // };
+  // const handleEditPost = (post) => {
+  //   setSelectedPost(post);
+  //   setShowEditPost(true);
   //   setShowMeneOption();
   // };
   useEffect(() => {
@@ -253,7 +256,6 @@ const Post = ({ handleOverlay }) => {
       const response = await axios.post(`http://localhost:4000/api/post/${postID}/${commintID}/reactComment`, {
         headers: {
           Authorization: `Bearer ${auth.Token}`,
-          "Content-Type": "application/json"
         }
       });
       if (response.status === 200) {
@@ -289,7 +291,6 @@ const Post = ({ handleOverlay }) => {
       const response = await axios.post(`http://localhost:4000/api/post/${idPost}/sharePost`, {
         headers: {
           Authorization: `Bearer ${auth.Token}`,
-          "Content-Type": "application/json"
         }
       });
       if (response.status === 200) {
