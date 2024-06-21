@@ -27,9 +27,14 @@
     position: absolute;
     top: 75%;
     right: -2%;
+    border: 1px solid white; 
     color: white;
     width: 12%;
     gap: 5px;
+}
+.options-2{
+    top: 40%;
+
 }
 .options:before {
     content: '';
@@ -47,7 +52,7 @@
     display: flex;
     align-items: center;
     width: 100%;
-    justify-content: space-between;
+    /* justify-content: space-between; */
     cursor: pointer;
     font-family: 'Trocchi', serif; 
 }
@@ -167,6 +172,12 @@
     z-index: 1000000000000000000;
     background-color:#206F7E;
     /* gap: 5px; */
+}
+.post-comment-reply{
+    display: flex;
+}
+.reply{
+    display: block;
 }
 .post-comment .avatar{
     width: 35px;

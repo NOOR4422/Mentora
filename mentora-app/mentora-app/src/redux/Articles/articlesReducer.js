@@ -49,7 +49,7 @@ const articleReducer = (state = initialState, action) => {
         }),
       };
       case Types.UPDATE_COMMENT_COUNT:
-       return {
+      return {
         ...state,
         articles: state.articles.map(article => {
           if (article.id === action.payload.articleId) {
