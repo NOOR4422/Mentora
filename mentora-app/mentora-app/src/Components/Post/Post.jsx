@@ -82,7 +82,7 @@ const Post = ({ handleOverlay }) => {
         }));
         return { ...comment, replies: updatedReplies };
       });
-  
+
       setComments(updatedComments);
       console.log(updatedComments);
 
@@ -93,11 +93,28 @@ const Post = ({ handleOverlay }) => {
   };
 
 
-  const handleDeleteArticle = (articleId) => {
-    dispatch(deleteArticle(articleId));
-    const updatedArticles = articles.filter(article => article.id !== articleId);
-    dispatch(postArticleToAPI(updatedArticles));
+  const handleDeleteArticle = async (articleId) => {
+    try {
+      // Make an Axios DELETE request to the server to delete the article
+      //https://mentora-5s1z.onrender.com/api/post/deletePost
+      const response = await axios.delete(`https://mentora-5s1z.onrender.com/api/post/${articleId}/deletePost`, {
+        headers: {
+          Authorization: `Bearer ${auth.Token}`,
+          "Content-Type": "application/json"
+        }
+      });
+
+      if (response.status === 200) {
+        // If the deletion is successful, dispatch the deleteArticle action to update the Redux store
+        dispatch(deleteArticle(articleId));
+        console.log('Article deleted successfully');
+      }
+    } catch (error) {
+      console.log('Error deleting the article:', error);
+    }
   };
+
+  
 
 
   const [description, setdescription] = useState('')
@@ -195,7 +212,7 @@ const Post = ({ handleOverlay }) => {
       console.error('Error deleting the comment:', error);
     }
   };
-  const handleDeleteReply=async (reply,commintID)=>{
+  const handleDeleteReply = async (reply, commintID) => {
     try {
       const response = await axios.delete(`http://localhost:4000/api/post/${postID}/${commintID}/${reply}/deleteReply`, {
         headers: {
@@ -212,7 +229,7 @@ const Post = ({ handleOverlay }) => {
       console.error('Error deleting the Reply:', error);
     }
   }
-  const handleReactReply=async (reply,commintID)=>{
+  const handleReactReply = async (reply, commintID) => {
     try {
       console.log(auth.Token);
       const response = await axios.post(`http://localhost:4000/api/post/${postID}/${commintID}/${reply}/reactReply`, {
@@ -369,7 +386,7 @@ const Post = ({ handleOverlay }) => {
                           }
                         </div>
                         <p className="comment-description">{comment.content}</p>
-                        <div className="Actions" style={{margin:"0rem 0rem -0.2rem" }}>
+                        <div className="Actions" style={{ margin: "0rem 0rem -0.2rem" }}>
                           <div className="likeComment">
                             <img src={likeComment} alt="not found" />
                             <p>{comment.reactsCount} likes</p>
@@ -397,7 +414,7 @@ const Post = ({ handleOverlay }) => {
                     </div>
                     {comment.repliesCount > 0 && showViewReplies &&
                       comment.replies.map((reply, index) => (
-                        <div key={index} className="comment" style={{marginLeft:"3rem",width:"90%"}}>
+                        <div key={index} className="comment" style={{ marginLeft: "3rem", width: "90%" }}>
                           <img src={avatar} alt="not found" className='avatar' />
                           <div className="comment-details">
                             <div className="all-above">
@@ -412,7 +429,7 @@ const Post = ({ handleOverlay }) => {
                                     <img src={edit} alt="not found" />
                                     <span style={{ color: "#fff", padding: "0rem 1rem" }}>edit</span>
                                   </div> */}
-                                  <div className="delete" style={{ color: "#fff" }} onClick={() => handleDeleteReply(reply._id,reply.commintID)}>
+                                  <div className="delete" style={{ color: "#fff" }} onClick={() => handleDeleteReply(reply._id, reply.commintID)}>
                                     <img src={Delete} alt="not found" />
                                     <span style={{ color: "#fff", padding: "0rem 1rem" }}>delete</span>
                                   </div>
@@ -420,8 +437,8 @@ const Post = ({ handleOverlay }) => {
                               }
                             </div>
                             <p className="comment-description">{reply.content}</p>
-                            <div className="Actions" style={{margin:"0rem 0rem -0.2rem" }}>
-                              <div className="likeComment"  onClick={() => handleReactReply(reply._id,reply.commintID)}>
+                            <div className="Actions" style={{ margin: "0rem 0rem -0.2rem" }}>
+                              <div className="likeComment" onClick={() => handleReactReply(reply._id, reply.commintID)}>
                                 <img src={likeComment} alt="not found" />
                                 <p>{reply.reactsCount} likes</p>
                               </div>
