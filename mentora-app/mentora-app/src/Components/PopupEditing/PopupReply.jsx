@@ -36,7 +36,7 @@ const PopupReply = ({
         e.preventDefault();
 
         // Add your API endpoint here
-        const response = await axios.put(`http://localhost:4000/api/post/${idPost}/${editCommintData._id}/updateComment`,{
+        const response = await axios.put(`https://mentora-5s1z.onrender.com/api/post/${idPost}/${editCommintData._id}/updateComment`,{
             content: textarea
         }, {
             headers: {

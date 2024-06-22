@@ -23,7 +23,7 @@ const AddReply = ({
         e.preventDefault();
 
         try {
-            const response = await axios.post(`http://localhost:4000/api/post/${idPost}/${editCommintData}/replyComment`, {
+            const response = await axios.post(`https://mentora-5s1z.onrender.com/api/post/${idPost}/${editCommintData}/replyComment`, {
                 content: textarea
             }, {
                 headers: {

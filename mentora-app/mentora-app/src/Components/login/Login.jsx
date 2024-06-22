@@ -13,9 +13,13 @@ import error400 from "../../assets/error400.png"
 import successSendOtp from "../../assets/successSendOtp.png"
 import Cookies from 'universal-cookie';
 import { User } from "../Context/userContext";
+import { useDispatch } from "react-redux";
+import { SaveIdUser } from "../../redux/User/userSlice";
 
 const LoginPage = () => {
     const navigate = useNavigate();
+  const dispatch = useDispatch();
+
     const cookies = new Cookies();
     const user=useContext(User)
   const [formData, setFormData] = useState({
@@ -75,6 +79,17 @@ const LoginPage = () => {
 
      const { Token, refreshToken } = response.data;
      console.log(response.data);
+     const CurrentUser = await axios.get(
+      process.env.REACT_APP_URL + "user/",
+      
+      {
+        headers: {
+          Authorization: `Bearer ${Token}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    console.log(CurrentUser.data.data.user._id);
       if (response.status === 200) {
         cookies.set('Bearer', Token);
         // user.setAuth({Token,refreshToken})
@@ -83,7 +98,8 @@ const LoginPage = () => {
         console.log(response.data.message);
         setOverlay(true)
         setSuccessOtp(response.data.message);
-     
+        dispatch(SaveIdUser(CurrentUser.data.data.user._id))
+
       } else {
         console.error('Unexpected status code:', response.status);
       }

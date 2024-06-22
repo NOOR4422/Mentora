@@ -34,6 +34,8 @@ const Post = ({ handleOverlay }) => {
   };
 
   const userData = useSelector(state => state.register.userData);
+  const idCerrentUser = useSelector(state => state.user.idUser);
+  console.log(idCerrentUser);
   const { firstName, lastName } = userData;
 
   const articles = useSelector(state => state.articles.articles);
@@ -69,7 +71,7 @@ const Post = ({ handleOverlay }) => {
     }));
     handleOverlay(true);
     try {
-      const response = await axios.get(`http://localhost:4000/api/post/${postId}/getPostComments`, {
+      const response = await axios.get(`https://mentora-5s1z.onrender.com/api/post/${postId}/getPostComments`, {
         headers: {
           Authorization: `Bearer ${auth.Token}`,
           "Content-Type": "application/json"
@@ -114,7 +116,7 @@ const Post = ({ handleOverlay }) => {
     }
   };
 
-  
+
 
 
   const [description, setdescription] = useState('')
@@ -124,7 +126,7 @@ const Post = ({ handleOverlay }) => {
     console.log(description);
     console.log(auth.Token);
     try {
-      const response = await axios.post(`http://localhost:4000/api/post/${article._id}/addComment`, { content: description }, {
+      const response = await axios.post(`https://mentora-5s1z.onrender.com/api/post/${article._id}/addComment`, { content: description }, {
         headers: {
           Authorization: `Bearer ${auth.Token}`,
           "Content-Type": "application/json"
@@ -201,7 +203,7 @@ const Post = ({ handleOverlay }) => {
   }, [comments]);
   const handleDeleteComment = async (commentId) => {
     try {
-      const response = await axios.delete(`http://localhost:4000/api/post/${postID}/${commentId}/deleteComment`, {
+      const response = await axios.delete(`https://mentora-5s1z.onrender.com/api/post/${postID}/${commentId}/deleteComment`, {
         headers: {
           Authorization: `Bearer ${auth.Token}`,
           "Content-Type": "application/json"
@@ -217,7 +219,7 @@ const Post = ({ handleOverlay }) => {
   };
   const handleDeleteReply = async (reply, commintID) => {
     try {
-      const response = await axios.delete(`http://localhost:4000/api/post/${postID}/${commintID}/${reply}/deleteReply`, {
+      const response = await axios.delete(`https://mentora-5s1z.onrender.com/api/post/${postID}/${commintID}/${reply}/deleteReply`, {
         headers: {
           Authorization: `Bearer ${auth.Token}`,
           "Content-Type": "application/json"
@@ -235,7 +237,7 @@ const Post = ({ handleOverlay }) => {
   const handleReactReply = async (reply, commintID) => {
     try {
       console.log(auth.Token);
-      const response = await axios.post(`http://localhost:4000/api/post/${postID}/${commintID}/${reply}/reactReply`,{}, {
+      const response = await axios.post(`https://mentora-5s1z.onrender.com/api/post/${postID}/${commintID}/${reply}/reactReply`, {}, {
         headers: {
           Authorization: `Bearer ${auth.Token}`,
           "Content-Type": "application/json"
@@ -250,10 +252,10 @@ const Post = ({ handleOverlay }) => {
       console.error('Error React the Reply:', error);
     }
   }
-  const handleReactComment=async (commintID)=>{
+  const handleReactComment = async (commintID) => {
     try {
       console.log(auth.Token);
-      const response = await axios.post(`http://localhost:4000/api/post/${postID}/${commintID}/reactComment`,
+      const response = await axios.post(`https://mentora-5s1z.onrender.com/api/post/${postID}/${commintID}/reactComment`,
         {}, {
         headers: {
           Authorization: `Bearer ${auth.Token}`,
@@ -268,10 +270,10 @@ const Post = ({ handleOverlay }) => {
       console.error('Error react the Comment:', error);
     }
   }
-  const handleReactPost=async (idPost)=>{
+  const handleReactPost = async (idPost) => {
     try {
       console.log(auth.Token);
-      const response = await axios.post(`http://localhost:4000/api/post/${idPost}/reactPost`,{}, {
+      const response = await axios.post(`https://mentora-5s1z.onrender.com/api/post/${idPost}/reactPost`, {}, {
         headers: {
           Authorization: `Bearer ${auth.Token}`,
           "Content-Type": "application/json"
@@ -290,7 +292,7 @@ const Post = ({ handleOverlay }) => {
     try {
       console.log(auth.Token);
       const response = await axios.post(
-        `http://localhost:4000/api/post/${idPost}/sharePost`,
+        `https://mentora-5s1z.onrender.com/api/post/${idPost}/sharePost`,
         {},  // Assuming no body data is needed, use an empty object
         {
           headers: {
@@ -308,12 +310,12 @@ const Post = ({ handleOverlay }) => {
       console.error('Error Share The Post :', error);
     }
   };
-  
+
   const handleSavePost = async (idPost) => {
     try {
       console.log(auth.Token);
       const response = await axios.post(
-        `http://localhost:4000/api/post/${idPost}/savePosts`,
+        `https://mentora-5s1z.onrender.com/api/post/${idPost}/savePosts`,
         {},  // Assuming no body data is needed, use an empty object
         {
           headers: {
@@ -330,7 +332,7 @@ const Post = ({ handleOverlay }) => {
       console.log('Error saving the post:', error.response ? error.response.data : error.message);
     }
   };
-  
+
   const [showReply, setShowReply] = useState(false);
   const handleShowReply = (commentId) => {
     setShowReply(true);
@@ -355,7 +357,7 @@ const Post = ({ handleOverlay }) => {
     return newItem;
   });
   console.log(formattedComments);
-  console.log(comments);
+  console.log(reversedArticles);
   const [showViewReplies, setShowViewReplies] = useState(false)
   return (
     <>
@@ -369,24 +371,27 @@ const Post = ({ handleOverlay }) => {
                 <p>{dateStr} {timeStr}</p>
               </div>
             </div>
-            <img
-              src={menu}
-              alt="not found"
-              className='menu'
-              onClick={() => { handelShoweMenuOption(article._id) }}
-            />
-            {showeMenuOption === article._id &&
-              <div className="options">
-                <div className="edit" onClick={() => handleEditArticle(article)}>
-                  <img src={edit} alt="not found" />
-                  <span>edit</span>
+            {article.author.id == idCerrentUser ? <>
+              <img
+                src={menu}
+                alt="not found"
+                className='menu'
+                onClick={() => { handelShoweMenuOption(article._id) }}
+              />
+              {showeMenuOption === article._id &&
+                <div className="options">
+                  <div className="edit" onClick={() => handleEditArticle(article)}>
+                    <img src={edit} alt="not found" />
+                    <span>edit</span>
+                  </div>
+                  <div className="delete" onClick={() => handleDeleteArticle(article._id)}>
+                    <img src={Delete} alt="not found" />
+                    <span>delete</span>
+                  </div>
                 </div>
-                <div className="delete" onClick={() => handleDeleteArticle(article._id)}>
-                  <img src={Delete} alt="not found" />
-                  <span>delete</span>
-                </div>
-              </div>
-            }
+              }
+            </> : ""}
+
           </div>
           <p className="description">{article.content}</p>
           {article.isImage && <img src={URL.createObjectURL(article.image)} alt="not found" className='Shared' />}
@@ -455,24 +460,26 @@ const Post = ({ handleOverlay }) => {
                             <p className="comment-user">{comment.authorName}</p>
                             <span>{comment.date}</span>
                           </div>
-                          <img src={menu} alt="not found" className='menu' onClick={() => { handelShoweMenuOption(comment._id) }} />
-                          {showeMenuOption === comment._id &&
-                            <div className="options options-2">
-                              <div className="edit" onClick={() => handleEditCommint(comment)}>
-                                <img src={edit} alt="not found" />
-                                <span style={{ color: "#fff", padding: "0rem 1rem" }}>edit</span>
+                          {comment.authorId == idCerrentUser ? <>
+                            <img src={menu} alt="not found" className='menu' onClick={() => { handelShoweMenuOption(comment._id) }} />
+                            {showeMenuOption === comment._id &&
+                              <div className="options options-2">
+                                <div className="edit" onClick={() => handleEditCommint(comment)}>
+                                  <img src={edit} alt="not found" />
+                                  <span style={{ color: "#fff", padding: "0rem 1rem" }}>edit</span>
+                                </div>
+                                <div className="delete" style={{ color: "#fff" }} onClick={() => handleDeleteComment(comment._id)}>
+                                  <img src={Delete} alt="not found" />
+                                  <span style={{ color: "#fff", padding: "0rem 1rem" }}>delete</span>
+                                </div>
                               </div>
-                              <div className="delete" style={{ color: "#fff" }} onClick={() => handleDeleteComment(comment._id)}>
-                                <img src={Delete} alt="not found" />
-                                <span style={{ color: "#fff", padding: "0rem 1rem" }}>delete</span>
-                              </div>
-                            </div>
-                          }
+                            }
+                          </> : ""}
                         </div>
                         <p className="comment-description">{comment.content}</p>
                         <div className="Actions" style={{ margin: "0rem 0rem -0.2rem" }}>
                           <div className="likeComment">
-                            <img src={likeComment} alt="not found" onClick={() => handleReactComment(comment._id)}/>
+                            <img src={likeComment} alt="not found" onClick={() => handleReactComment(comment._id)} />
                             <p>{comment.reactsCount} likes</p>
                           </div>
                           <div className="replyComment" onClick={() => handleShowReply(comment._id)}>
@@ -506,19 +513,22 @@ const Post = ({ handleOverlay }) => {
                                 <p className="comment-user">{reply.authorName}</p>
                                 <span>{reply.date}</span>
                               </div>
-                              <img src={menu} alt="not found" className='menu' onClick={() => { handelShoweMenuOption(reply._id) }} />
-                              {showeMenuOption === reply._id &&
-                                <div className="options options-2">
-                                  {/* <div className="edit" onClick={() => handleEditReply(reply)}>
+                              {reply.authorId == idCerrentUser ? <>
+                                <img src={menu} alt="not found" className='menu' onClick={() => { handelShoweMenuOption(reply._id) }} />
+                                {showeMenuOption === reply._id &&
+                                  <div className="options options-2">
+                                    {/* <div className="edit" onClick={() => handleEditReply(reply)}>
                                     <img src={edit} alt="not found" />
                                     <span style={{ color: "#fff", padding: "0rem 1rem" }}>edit</span>
                                   </div> */}
-                                  <div className="delete" style={{ color: "#fff" }} onClick={() => handleDeleteReply(reply._id, reply.commintID)}>
-                                    <img src={Delete} alt="not found" />
-                                    <span style={{ color: "#fff", padding: "0rem 1rem" }}>delete</span>
+                                    <div className="delete" style={{ color: "#fff" }} onClick={() => handleDeleteReply(reply._id, reply.commintID)}>
+                                      <img src={Delete} alt="not found" />
+                                      <span style={{ color: "#fff", padding: "0rem 1rem" }}>delete</span>
+                                    </div>
                                   </div>
-                                </div>
-                              }
+                                }
+                              </> : ""}
+
                             </div>
                             <p className="comment-description">{reply.content}</p>
                             <div className="Actions" style={{ margin: "0rem 0rem -0.2rem" }}>

@@ -30,7 +30,7 @@ const PopupEdit = ({ type, ShowPopup, handleShowPopup, editArticleData, handlePo
     }
     rest(e)
     // Add your API endpoint here
-    const response = await axios.put(`http://localhost:4000/api/post/${_id}/updatePost`, {
+    const response = await axios.put(`https://mentora-5s1z.onrender.com/api/post/${_id}/updatePost`, {
       content: textarea
     }, {
       headers: {

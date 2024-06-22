@@ -5,14 +5,10 @@ import axios from 'axios';
 import { User } from "../Context/userContext";
 // PopupCommint component to handle editing comments
 const PopupCommint = ({
-    type,
     ShowPopup,
     showEditCommint,
     editCommintData,
     handleShowPopup,
-    editArticleData,
-    handlePopupType,
-    handleOverlay,
     idPost
 }) => {
     const { auth } = useContext(User);
@@ -39,7 +35,7 @@ const PopupCommint = ({
         e.preventDefault();
 
         // Add your API endpoint here
-        const response = await axios.put(`http://localhost:4000/api/post/${idPost}/${editCommintData._id}/updateComment`,{
+        const response = await axios.put(`https://mentora-5s1z.onrender.com/api/post/${idPost}/${editCommintData._id}/updateComment`,{
             content: textarea
         }, {
             headers: {
@@ -82,7 +78,7 @@ const PopupCommint = ({
                 <div className="popup-footer">
                     <button
                         disabled={!textarea}
-                        className={textarea.length !== 0 ? "" : "disabled"}
+                        className={textarea !== 0 ? "" : "disabled"}
                         onClick={handleEdit}
                     >
                         Edit
