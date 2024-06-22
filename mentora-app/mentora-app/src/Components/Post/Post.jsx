@@ -365,7 +365,7 @@ const Post = ({ handleOverlay }) => {
         <div className='post' key={index}>
           <div className="post-header">
             <div className="user-info">
-              <img src={avatar} alt="not found" />
+              {article.author.profilePicture ?<img src={article.author.profilePicture} alt="not found" /> :<img src={avatar} alt="not found" />}
               <div className="user-details">
                 <h3>{article.author.firstName} {article.author.lastName}</h3>
                 <p>{dateStr} {timeStr}</p>

@@ -14,7 +14,7 @@ import successSendOtp from "../../assets/successSendOtp.png"
 import Cookies from 'universal-cookie';
 import { User } from "../Context/userContext";
 import { useDispatch } from "react-redux";
-import { SaveIdUser } from "../../redux/User/userSlice";
+import { SaveIdUser ,SaveNameUser, SavePhotoUser} from "../../redux/User/userSlice";
 
 const LoginPage = () => {
     const navigate = useNavigate();
@@ -89,7 +89,7 @@ const LoginPage = () => {
         },
       }
     );
-    console.log(CurrentUser.data.data.user._id);
+    console.log(CurrentUser);
       if (response.status === 200) {
         cookies.set('Bearer', Token);
         // user.setAuth({Token,refreshToken})
@@ -99,6 +99,8 @@ const LoginPage = () => {
         setOverlay(true)
         setSuccessOtp(response.data.message);
         dispatch(SaveIdUser(CurrentUser.data.data.user._id))
+        dispatch(SaveNameUser(CurrentUser.data.data.user.name))
+        dispatch(SavePhotoUser(CurrentUser.data.data.user.profilePicture))
 
       } else {
         console.error('Unexpected status code:', response.status);
